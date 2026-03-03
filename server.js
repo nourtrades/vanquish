@@ -1,12 +1,20 @@
 const express = require("express");
 const fs = require("fs");
 const path = require("path");
+const crypto = require("crypto");
 
 const app = express();
 const PORT = process.env.PORT || 3001;
 const DATA_FILE = path.join(__dirname, "leaderboard.json");
+const SUBS_FILE = path.join(__dirname, "submissions.json");
 
 app.use(express.json());
+
+// ── Serve standalone pages ──
+app.get("/submit", (_req, res) => res.sendFile(path.join(__dirname, "submit.html")));
+app.get("/admin", (_req, res) => res.sendFile(path.join(__dirname, "admin.html")));
+
+// ═══════════ LEADERBOARD ENDPOINTS ═══════════
 
 // ── GET /api/leaderboard ── return current leaderboard
 app.get("/api/leaderboard", (_req, res) => {
@@ -50,7 +58,6 @@ app.post("/api/leaderboard/trader", (req, res) => {
       data.traders.push(entry);
     }
 
-    // re-rank by payout descending
     data.traders.sort((a, b) => b.payout - a.payout);
     data.traders.forEach((t, i) => (t.rank = i + 1));
 
@@ -72,6 +79,97 @@ app.delete("/api/leaderboard/trader/:name", (req, res) => {
     res.json({ success: true, data });
   } catch (err) {
     res.status(500).json({ error: "Failed to delete trader" });
+  }
+});
+
+// ═══════════ SUBMISSION ENDPOINTS ═══════════
+
+function readSubs() {
+  return JSON.parse(fs.readFileSync(SUBS_FILE, "utf-8"));
+}
+function writeSubs(data) {
+  fs.writeFileSync(SUBS_FILE, JSON.stringify(data, null, 2) + "\n");
+}
+
+// ── POST /api/submissions ── trader submits a payout
+app.post("/api/submissions", (req, res) => {
+  try {
+    const { name, payout, proofUrl } = req.body;
+    if (!name || payout == null) {
+      return res.status(400).json({ error: "'name' and 'payout' are required" });
+    }
+    const data = readSubs();
+    const submission = {
+      id: crypto.randomUUID(),
+      name: String(name).trim(),
+      payout: Number(payout),
+      proofUrl: proofUrl ? String(proofUrl).trim() : "",
+      status: "pending",
+      submittedAt: new Date().toISOString(),
+    };
+    data.submissions.push(submission);
+    writeSubs(data);
+    res.json({ success: true, submission });
+  } catch (err) {
+    res.status(500).json({ error: "Failed to create submission" });
+  }
+});
+
+// ── GET /api/submissions ── admin gets all submissions
+app.get("/api/submissions", (_req, res) => {
+  try {
+    const data = readSubs();
+    res.json(data);
+  } catch (err) {
+    res.status(500).json({ error: "Failed to read submissions" });
+  }
+});
+
+// ── POST /api/submissions/:id/approve ── approve & add to leaderboard
+app.post("/api/submissions/:id/approve", (req, res) => {
+  try {
+    const subs = readSubs();
+    const sub = subs.submissions.find(s => s.id === req.params.id);
+    if (!sub) return res.status(404).json({ error: "Submission not found" });
+    if (sub.status !== "pending") return res.status(400).json({ error: "Already processed" });
+
+    sub.status = "approved";
+    sub.reviewedAt = new Date().toISOString();
+    writeSubs(subs);
+
+    // Add to leaderboard
+    const lb = JSON.parse(fs.readFileSync(DATA_FILE, "utf-8"));
+    const existing = lb.traders.findIndex(t => t.name === sub.name);
+    if (existing !== -1) {
+      lb.traders[existing].payout += sub.payout;
+    } else {
+      lb.traders.push({ name: sub.name, payout: sub.payout, trades: 0, winRate: 0 });
+    }
+    lb.traders.sort((a, b) => b.payout - a.payout);
+    lb.traders.forEach((t, i) => (t.rank = i + 1));
+    fs.writeFileSync(DATA_FILE, JSON.stringify(lb, null, 2) + "\n");
+
+    res.json({ success: true, submission: sub });
+  } catch (err) {
+    res.status(500).json({ error: "Failed to approve submission" });
+  }
+});
+
+// ── POST /api/submissions/:id/deny ── deny a submission
+app.post("/api/submissions/:id/deny", (req, res) => {
+  try {
+    const subs = readSubs();
+    const sub = subs.submissions.find(s => s.id === req.params.id);
+    if (!sub) return res.status(404).json({ error: "Submission not found" });
+    if (sub.status !== "pending") return res.status(400).json({ error: "Already processed" });
+
+    sub.status = "denied";
+    sub.reviewedAt = new Date().toISOString();
+    writeSubs(subs);
+
+    res.json({ success: true, submission: sub });
+  } catch (err) {
+    res.status(500).json({ error: "Failed to deny submission" });
   }
 });
 

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Submit Payout — Vanquish March Competition</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:#000; color:#fff; font-family:'Inter',sans-serif; min-height:100vh; display:flex; align-items:center; justify-content:center; }
+  .card { background:#0a0a0a; border:1px solid rgba(255,255,255,0.08); border-radius:20px; padding:48px; max-width:480px; width:100%; margin:24px; }
+  .badge { display:inline-flex; align-items:center; gap:8px; background:rgba(0,200,83,0.1); border-radius:100px; padding:6px 18px; margin-bottom:24px; }
+  .badge-dot { width:8px; height:8px; border-radius:50%; background:#00C853; }
+  .badge-text { font-size:12px; font-weight:700; color:#00C853; letter-spacing:2px; }
+  h1 { font-family:'Bebas Neue',sans-serif; font-size:42px; letter-spacing:2px; line-height:1; margin-bottom:8px; }
+  .sub { font-size:15px; color:rgba(255,255,255,0.6); line-height:1.6; margin-bottom:36px; }
+  label { display:block; font-size:12px; font-weight:700; letter-spacing:2px; color:#00C853; margin-bottom:8px; }
+  input { width:100%; padding:14px 18px; background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.1); border-radius:10px; color:#fff; font-size:15px; font-family:'Inter',sans-serif; outline:none; transition:border .2s; margin-bottom:24px; }
+  input:focus { border-color:#00C853; }
+  input::placeholder { color:rgba(255,255,255,0.25); }
+  .btn { width:100%; padding:16px; background:#00C853; border:none; border-radius:100px; color:#000; font-size:16px; font-weight:700; cursor:pointer; font-family:'Inter',sans-serif; transition:opacity .2s; }
+  .btn:hover { opacity:0.9; }
+  .btn:disabled { opacity:0.5; cursor:not-allowed; }
+  .msg { margin-top:20px; padding:14px 18px; border-radius:10px; font-size:14px; font-weight:600; text-align:center; }
+  .msg.success { background:rgba(0,200,83,0.1); border:1px solid rgba(0,200,83,0.25); color:#00C853; }
+  .msg.error { background:rgba(255,50,50,0.1); border:1px solid rgba(255,50,50,0.25); color:#ff5555; }
+  .back { display:block; text-align:center; margin-top:24px; color:rgba(255,255,255,0.4); font-size:13px; text-decoration:none; }
+  .back:hover { color:#fff; }
+</style>
+</head>
+<body>
+  <div class="card">
+    <div class="badge">
+      <div class="badge-dot"></div>
+      <span class="badge-text">MARCH COMPETITION</span>
+    </div>
+    <h1>Submit Your Payout</h1>
+    <p class="sub">Submit your payout details for the March competition. All submissions are reviewed before appearing on the leaderboard.</p>
+
+    <form id="form">
+      <label>YOUR NAME / ALIAS</label>
+      <input type="text" id="name" placeholder="e.g. TraderX" required />
+
+      <label>PAYOUT AMOUNT ($)</label>
+      <input type="number" id="payout" placeholder="e.g. 5000" min="1" step="0.01" required />
+
+      <label>PROOF LINK (OPTIONAL)</label>
+      <input type="url" id="proofUrl" placeholder="e.g. screenshot URL or link" />
+
+      <button type="submit" class="btn" id="submitBtn">Submit Payout</button>
+    </form>
+
+    <div id="msg" class="msg" style="display:none"></div>
+    <a href="/" class="back">Back to main site</a>
+  </div>
+
+  <script>
+    const form = document.getElementById("form");
+    const msg = document.getElementById("msg");
+    const submitBtn = document.getElementById("submitBtn");
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      msg.style.display = "none";
+      submitBtn.disabled = true;
+      submitBtn.textContent = "Submitting...";
+
+      try {
+        const body = {
+          name: document.getElementById("name").value.trim(),
+          payout: Number(document.getElementById("payout").value),
+          proofUrl: document.getElementById("proofUrl").value.trim(),
+        };
+
+        const res = await fetch("/api/submissions", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(body),
+        });
+        const data = await res.json();
+
+        if (data.success) {
+          msg.className = "msg success";
+          msg.textContent = "Payout submitted! It will appear on the leaderboard once approved.";
+          msg.style.display = "block";
+          form.reset();
+        } else {
+          throw new Error(data.error || "Submission failed");
+        }
+      } catch (err) {
+        msg.className = "msg error";
+        msg.textContent = err.message || "Something went wrong. Please try again.";
+        msg.style.display = "block";
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Submit Payout";
+      }
+    });
+  </script>
+</body>
+</html>
