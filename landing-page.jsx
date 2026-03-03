@@ -434,15 +434,10 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* ═══════════ FINAL CTA — Planet backdrop reprise ═══════════ */}
+      {/* ═══════════ FINAL CTA — Video backdrop ═══════════ */}
       <section style={{padding:"140px 32px",textAlign:"center",position:"relative",overflow:"hidden",borderTop:`1px solid ${C.cardBorder}`}}>
-        {/* Rotating 3D Logo — color-dodge reprise */}
-        <div className="rotate-bg-wrap-center" style={{width:750,height:750}}>
-          <div className="rotate-bg-spin-reverse" style={{backgroundImage:`url(${ROTATE_BG})`,opacity:0.4}} />
-        </div>
-        <div className="perspective-grid" />
-        <div className="glow-orb" style={{width:800,height:800,background:"radial-gradient(circle,rgba(0,200,83,0.1) 0%,transparent 50%)",top:"50%",left:"50%"}} />
-        <div className="scanline-effect" />
+        <video autoPlay muted loop playsInline style={{position:"absolute",inset:0,width:"100%",height:"100%",objectFit:"cover",zIndex:0}} src="https://github.com/nourtrades/vanquish/releases/download/v1.0/icantchillyet_Realistic_cinematic_3840__2160_image_stock_char_f152a47b-3bf9-46a4-99a3-138049886f70_1.mp4" />
+        <div style={{position:"absolute",inset:0,background:"rgba(0,0,0,0.65)",zIndex:0}} />
         <div className="noise-overlay" />
 
         <div style={{...S,position:"relative",zIndex:1}}>
