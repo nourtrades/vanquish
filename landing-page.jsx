@@ -440,7 +440,7 @@ export default function LandingPage() {
         <div className="noise-overlay" />
 
         <div style={{...S,position:"relative",zIndex:1}}>
-          <h2 style={{...h2s,fontSize:"clamp(44px,8vw,80px)",maxWidth:800,margin:"0 auto"}}>Start trading with funded capital</h2>
+          <h2 style={{...h2s,fontSize:"clamp(32px,5vw,56px)",maxWidth:800,margin:"0 auto",whiteSpace:"nowrap"}}>Start trading with funded capital</h2>
           <p style={{...sub,margin:"24px auto 0",textAlign:"center",maxWidth:480}}>Use code NOUR for a discount on all accounts. No risk to your own money.</p>
           <div style={{marginTop:48}}>
             <a href={LINK} target="_blank" rel="noopener noreferrer" style={{...btn,fontSize:18,padding:"18px 48px",boxShadow:"0 0 40px rgba(0,200,83,0.25)"}}>Get Funded</a>
