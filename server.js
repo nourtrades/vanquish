@@ -198,4 +198,9 @@ app.post("/api/submissions/:id/deny", (req, res) => {
   }
 });
 
+// ── SPA catch-all: serve index.html for any non-API route ──
+app.get("*", (_req, res) => {
+  res.sendFile(path.join(DIST_DIR, "index.html"));
+});
+
 app.listen(PORT, () => console.log(`Leaderboard API running on http://localhost:${PORT}`));

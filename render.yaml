@@ -1,0 +1,6 @@
+services:
+  - type: web
+    name: vanquish
+    runtime: node
+    buildCommand: npm install && npm run build
+    startCommand: node server.js
