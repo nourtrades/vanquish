@@ -211,7 +211,7 @@ export default function LandingPage() {
       {/* ═══════════ HERO — Globe peeks from bottom ═══════════ */}
       <section style={{padding:"140px 32px 120px",position:"relative",overflow:"hidden"}}>
         {/* Globe — positioned at bottom center, peeking up */}
-        <div style={{position:"absolute",bottom:"-35%",left:"50%",transform:"translateX(-50%)",width:1000,height:1000,pointerEvents:"none",zIndex:0}}>
+        <div style={{position:"absolute",bottom:"-35%",left:"50%",transform:"translateX(-50%) scale(1.5)",width:1000,height:1000,pointerEvents:"none",zIndex:0}}>
           <div className="rotate-bg-spin" style={{backgroundImage:`url(${ROTATE_BG})`,borderRadius:"50%"}} />
         </div>
         {/* Dark gradient overlay — keeps text readable */}
