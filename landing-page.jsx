@@ -279,7 +279,7 @@ export default function LandingPage() {
 
         <div style={{...S,position:"relative",zIndex:1}}>
           <p style={label}>How It Works</p>
-          <h2 style={h2s}>Get funded in<br/>3 simple steps</h2>
+          <h2 style={h2s}>Our traders are<br/>getting paid</h2>
           <p style={sub}>No complicated rules. No hidden requirements. Just trade.</p>
 
           <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(300px,1fr))",gap:1,marginTop:72,background:C.cardBorder,borderRadius:20,overflow:"hidden"}}>
