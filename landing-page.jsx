@@ -162,10 +162,20 @@ function FAQ({q,a}) {
 
 export default function LandingPage() {
   const [scrollY, setScrollY] = useState(0);
+  const [leaderboard, setLeaderboard] = useState(null);
+  const [showBoard, setShowBoard] = useState(false);
+
   useEffect(() => {
     const h = () => setScrollY(window.scrollY);
     window.addEventListener("scroll", h, {passive:true});
     return () => window.removeEventListener("scroll", h);
+  }, []);
+
+  useEffect(() => {
+    fetch("/api/leaderboard")
+      .then(r => r.json())
+      .then(d => setLeaderboard(d))
+      .catch(() => {});
   }, []);
 
   const S = {maxWidth:1120,margin:"0 auto",padding:"0 32px"};
@@ -388,6 +398,7 @@ export default function LandingPage() {
           <h2 style={{...h2s,textAlign:"center"}}>March Payout<br/>Competition</h2>
           <p style={{fontSize:17,color:C.textSoft,marginTop:16,marginBottom:40,lineHeight:1.7}}>$10,000+ in total prizes. Highest payouts this month win.</p>
 
+          {/* Prize tiers */}
           <div style={{display:"flex",flexDirection:"column",gap:4,maxWidth:420,margin:"0 auto 40px"}}>
             {[
               {p:"1st",v:"$5,000",hl:true},
@@ -398,7 +409,7 @@ export default function LandingPage() {
             ].map((r,i) => (
               <div key={i} style={{display:"flex",justifyContent:"space-between",padding:"14px 24px",borderRadius:10,background:r.hl?"rgba(0,200,83,0.08)":"rgba(255,255,255,0.03)",border:r.hl?"1px solid rgba(0,200,83,0.25)":`1px solid ${C.cardBorder}`,backdropFilter:"blur(4px)"}}>
                 <span style={{fontSize:14,fontWeight:700,color:r.hl?C.green:C.textSoft}}>{r.p}</span>
-                <span style={{fontSize:15,fontWeight:800,color:r.hl?C.green:"rgba(255,255,255,0.8)"}}>{r.v}</span>
+                <span style={{fontSize:15,fontWeight:800,color:r.hl?C.green:"#fff"}}>{r.v}</span>
               </div>
             ))}
           </div>
@@ -407,7 +418,34 @@ export default function LandingPage() {
             <div style={{fontSize:11,fontWeight:700,letterSpacing:3,color:C.textMuted,marginBottom:14}}>ENDS IN</div>
             <Countdown />
           </div>
-          <a href="#" style={btn}>View Leaderboard</a>
+
+          <button onClick={() => setShowBoard(!showBoard)} style={btn}>{showBoard ? "Hide Leaderboard" : "View Leaderboard"}</button>
+
+          {/* ── Live Leaderboard Table ── */}
+          {showBoard && (
+            <div style={{marginTop:48,maxWidth:640,marginLeft:"auto",marginRight:"auto",background:"rgba(0,0,0,0.6)",border:`1px solid ${C.cardBorder}`,borderRadius:16,overflow:"hidden",backdropFilter:"blur(12px)"}}>
+              <div style={{display:"grid",gridTemplateColumns:"56px 1fr 110px 80px 80px",padding:"14px 24px",borderBottom:`1px solid ${C.cardBorder}`,background:"rgba(0,200,83,0.06)"}}>
+                {["#","TRADER","PAYOUT","TRADES","WIN %"].map(h => (
+                  <span key={h} style={{fontSize:11,fontWeight:700,letterSpacing:2,color:C.green,textAlign:h==="#"||h==="TRADER"?"left":"right"}}>{h}</span>
+                ))}
+              </div>
+              {leaderboard && leaderboard.traders ? leaderboard.traders.map((t,i) => {
+                const isTop3 = i < 3;
+                const medal = i === 0 ? "1st" : i === 1 ? "2nd" : i === 2 ? "3rd" : null;
+                return (
+                  <div key={t.name} style={{display:"grid",gridTemplateColumns:"56px 1fr 110px 80px 80px",padding:"14px 24px",borderBottom:`1px solid ${C.cardBorder}`,background:isTop3?"rgba(0,200,83,0.04)":"transparent",transition:"background .2s"}}>
+                    <span style={{fontSize:14,fontWeight:800,color:isTop3?C.green:"#fff"}}>{medal || t.rank}</span>
+                    <span style={{fontSize:14,fontWeight:600,color:"#fff"}}>{t.name}</span>
+                    <span style={{fontSize:14,fontWeight:700,color:isTop3?C.green:"#fff",textAlign:"right"}}>${t.payout.toLocaleString()}</span>
+                    <span style={{fontSize:13,color:"rgba(255,255,255,0.7)",textAlign:"right"}}>{t.trades}</span>
+                    <span style={{fontSize:13,color:"rgba(255,255,255,0.7)",textAlign:"right"}}>{t.winRate}%</span>
+                  </div>
+                );
+              }) : (
+                <div style={{padding:40,textAlign:"center",color:"rgba(255,255,255,0.5)",fontSize:14}}>Loading leaderboard...</div>
+              )}
+            </div>
+          )}
         </div>
       </section>
 
