@@ -14,7 +14,7 @@ const PAYOUT_IMAGES = [
 const C = {
   green: "#00C853", greenDark: "#00A844", bg: "#000",
   card: "#0a0a0a", cardBorder: "rgba(255,255,255,0.08)",
-  textSoft: "rgba(255,255,255,0.6)", textMuted: "rgba(255,255,255,0.35)",
+  textSoft: "#FFFFFF", textMuted: "#FFFFFF",
   trustpilot: "#00b67a",
 };
 const LINK = "https://www.vanquishtrader.co/nour/";
