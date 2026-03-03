@@ -4,11 +4,11 @@ const VQ_LOGO = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtW
 
 
 const PAYOUT_IMAGES = [
-  "https://i.imgur.com/VLXbOoV.png",
-  "https://i.imgur.com/yZxQbXm.png",
-  "https://i.imgur.com/JLj6FG7.png",
-  "https://i.imgur.com/KYkRH7Y.png",
-  "https://i.imgur.com/AKXeQ69.png",
+  "https://github.com/nourtrades/vanquish/releases/download/v1.0/payout-1.png",
+  "https://github.com/nourtrades/vanquish/releases/download/v1.0/payout-2.png",
+  "https://github.com/nourtrades/vanquish/releases/download/v1.0/payout-3.png",
+  "https://github.com/nourtrades/vanquish/releases/download/v1.0/payout-4.png",
+  "https://github.com/nourtrades/vanquish/releases/download/v1.0/payout-5.png",
 ];
 
 const C = {
