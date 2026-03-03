@@ -164,6 +164,10 @@ export default function LandingPage() {
   const [scrollY, setScrollY] = useState(0);
   const [leaderboard, setLeaderboard] = useState(null);
   const [showBoard, setShowBoard] = useState(false);
+  const [showSubmit, setShowSubmit] = useState(false);
+  const [submitForm, setSubmitForm] = useState({ name: "", payout: "", proofUrl: "" });
+  const [submitStatus, setSubmitStatus] = useState(null); // { type: "success"|"error", message }
+  const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
     const h = () => setScrollY(window.scrollY);
@@ -421,8 +425,53 @@ export default function LandingPage() {
 
           <div style={{display:"flex",gap:12,justifyContent:"center",flexWrap:"wrap"}}>
             <button onClick={() => setShowBoard(!showBoard)} style={btn}>{showBoard ? "Hide Leaderboard" : "View Leaderboard"}</button>
-            <a href="/submit" style={{...btn,background:"transparent",color:"#fff",border:"1px solid rgba(255,255,255,0.2)"}}>Submit Your Payout</a>
+            <button onClick={() => { setShowSubmit(!showSubmit); setSubmitStatus(null); }} style={{...btn,background:"transparent",color:"#fff",border:"1px solid rgba(255,255,255,0.2)"}}>{showSubmit ? "Close Form" : "Submit Your Payout"}</button>
           </div>
+
+          {/* ── Submit Payout Form ── */}
+          {showSubmit && (
+            <div style={{marginTop:48,maxWidth:480,marginLeft:"auto",marginRight:"auto",background:"rgba(0,0,0,0.6)",border:`1px solid ${C.cardBorder}`,borderRadius:16,overflow:"hidden",backdropFilter:"blur(12px)",padding:36}}>
+              <h3 style={{fontFamily:"'Bebas Neue',sans-serif",fontSize:28,letterSpacing:2,marginBottom:8,color:"#fff"}}>Submit Your Payout</h3>
+              <p style={{fontSize:14,color:"rgba(255,255,255,0.5)",marginBottom:28,lineHeight:1.6}}>Submit your payout details for the March competition. All submissions are reviewed before appearing on the leaderboard.</p>
+              <form onSubmit={async (e) => {
+                e.preventDefault();
+                setSubmitStatus(null);
+                setSubmitting(true);
+                try {
+                  const res = await fetch("/api/submissions", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ name: submitForm.name.trim(), payout: Number(submitForm.payout), proofUrl: submitForm.proofUrl.trim() }),
+                  });
+                  const data = await res.json();
+                  if (data.success) {
+                    setSubmitStatus({ type: "success", message: "Payout submitted! It will appear on the leaderboard once approved." });
+                    setSubmitForm({ name: "", payout: "", proofUrl: "" });
+                  } else {
+                    throw new Error(data.error || "Submission failed");
+                  }
+                } catch (err) {
+                  setSubmitStatus({ type: "error", message: err.message || "Something went wrong. Please try again." });
+                } finally {
+                  setSubmitting(false);
+                }
+              }}>
+                <label style={{display:"block",fontSize:11,fontWeight:700,letterSpacing:2,color:C.green,marginBottom:8}}>YOUR NAME / ALIAS</label>
+                <input type="text" value={submitForm.name} onChange={e => setSubmitForm({...submitForm, name: e.target.value})} placeholder="e.g. TraderX" required style={{width:"100%",padding:"14px 18px",background:"rgba(255,255,255,0.04)",border:"1px solid rgba(255,255,255,0.1)",borderRadius:10,color:"#fff",fontSize:15,fontFamily:"Inter,sans-serif",outline:"none",marginBottom:20}} />
+
+                <label style={{display:"block",fontSize:11,fontWeight:700,letterSpacing:2,color:C.green,marginBottom:8}}>PAYOUT AMOUNT ($)</label>
+                <input type="number" value={submitForm.payout} onChange={e => setSubmitForm({...submitForm, payout: e.target.value})} placeholder="e.g. 5000" min="1" step="0.01" required style={{width:"100%",padding:"14px 18px",background:"rgba(255,255,255,0.04)",border:"1px solid rgba(255,255,255,0.1)",borderRadius:10,color:"#fff",fontSize:15,fontFamily:"Inter,sans-serif",outline:"none",marginBottom:20}} />
+
+                <label style={{display:"block",fontSize:11,fontWeight:700,letterSpacing:2,color:C.green,marginBottom:8}}>PROOF LINK (OPTIONAL)</label>
+                <input type="url" value={submitForm.proofUrl} onChange={e => setSubmitForm({...submitForm, proofUrl: e.target.value})} placeholder="e.g. screenshot URL or link" style={{width:"100%",padding:"14px 18px",background:"rgba(255,255,255,0.04)",border:"1px solid rgba(255,255,255,0.1)",borderRadius:10,color:"#fff",fontSize:15,fontFamily:"Inter,sans-serif",outline:"none",marginBottom:24}} />
+
+                <button type="submit" disabled={submitting} style={{width:"100%",padding:16,background:C.green,border:"none",borderRadius:100,color:"#000",fontSize:16,fontWeight:700,cursor:submitting?"not-allowed":"pointer",fontFamily:"Inter,sans-serif",opacity:submitting?0.5:1,transition:"opacity .2s"}}>{submitting ? "Submitting..." : "Submit Payout"}</button>
+              </form>
+              {submitStatus && (
+                <div style={{marginTop:20,padding:"14px 18px",borderRadius:10,fontSize:14,fontWeight:600,textAlign:"center",background:submitStatus.type==="success"?"rgba(0,200,83,0.1)":"rgba(255,50,50,0.1)",border:submitStatus.type==="success"?"1px solid rgba(0,200,83,0.25)":"1px solid rgba(255,50,50,0.25)",color:submitStatus.type==="success"?C.green:"#ff5555"}}>{submitStatus.message}</div>
+              )}
+            </div>
+          )}
 
           {/* ── Live Leaderboard Table ── */}
           {showBoard && (
