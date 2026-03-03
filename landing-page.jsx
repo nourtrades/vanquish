@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 const VQ_LOGO = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAABzklEQVR42u3cuxUCMQxFQZtD/y0vCTGRP3pipgJh67JLwhgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAALTwfHX9fDPhAkoc1JxTDr/vpuMZvVwzq764Oj5JBMLSp3q3SATC8lfeTpEIhC2/B7tEIhC2LXyHSATC1kVPj0QgbF/w5EgEwpHFTo1EIBxb6MRIBMLRRU6LRCAcX+CkSATClcVNiUQgXFvYhEgEwtVFrR6JQMTxmEEgFF/MqpEIRBxmEggprzTVZhOIOMwoEFLiqDarQMRhZoGIw+wCoVkcY9z/KyGBiEMcAhGHOASCOASCOASCOASCOGrHIRBxiEMg4hCHQMQhDoEgDoEgDoEgDoEgjug4BCIOcQhEHOIQiDjEIRBxiEMgiEMgiEMgiEMgiKNrHAIRhzgEIg5xCEQc4hCIOMQhEHGIQyDiEIdAEIdAEIdAEMcfxiEQcYhDIOIQh0DEIQ6BiEMcAhGHOAQiDnEIRBziiPd2BGsXx5IBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEBhH9/wV92csyjIAAAAAElFTkSuQmCC";
 
@@ -113,6 +113,7 @@ const css = `
 
   /* ══ Mobile Responsive ══ */
   @media(max-width:768px){
+    .vq-video-section{background:linear-gradient(135deg,#000 0%,#061a0e 40%,#0a2614 60%,#000 100%)!important}
     .nav-links .nav-link-item{display:none!important}
     .marquee-track{gap:16px}
     .comparison-grid{grid-template-columns:1fr 72px 72px!important}
@@ -140,6 +141,23 @@ const CheckSvg = () => <svg width="20" height="20" viewBox="0 0 24 24" fill="non
 const XSvg = () => <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(255,60,60,0.45)" strokeWidth="2" strokeLinecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>;
 const Chevron = ({open}) => <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={C.textSoft} strokeWidth="2" strokeLinecap="round" style={{transition:"transform .3s",transform:open?"rotate(180deg)":"none",flexShrink:0}}><path d="M6 9l6 6 6-6"/></svg>;
 const StarSvg = ({size=13}) => <svg width={size} height={size} viewBox="0 0 24 24" fill="#fff"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>;
+
+const BgVideo = ({src}) => {
+  const ref = useRef(null);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const tryPlay = () => { el.play().catch(() => {}); };
+    tryPlay();
+    const io = new IntersectionObserver(([e]) => { if (e.isIntersecting) tryPlay(); }, {threshold:0.1});
+    io.observe(el);
+    const onTouch = () => { tryPlay(); document.removeEventListener("touchstart", onTouch); };
+    document.addEventListener("touchstart", onTouch, {once:true});
+    return () => { io.disconnect(); document.removeEventListener("touchstart", onTouch); };
+  }, []);
+  return <video ref={ref} className="vq-bg-video" autoPlay muted loop playsInline webkit-playsinline="" style={{position:"absolute",inset:0,width:"100%",height:"100%",objectFit:"cover",zIndex:0}} src={src} />;
+};
+
 
 function Countdown() {
   const [t, setT] = useState({d:0,h:0,m:0,s:0});
@@ -354,8 +372,8 @@ export default function LandingPage() {
       </section>
 
       {/* ═══════════ WHY VANQUISH — Video Background ═══════════ */}
-      <section className="vq-section" style={{padding:"56px 32px",position:"relative",overflow:"hidden",borderTop:`1px solid ${C.cardBorder}`}}>
-        <video autoPlay muted loop playsInline style={{position:"absolute",inset:0,width:"100%",height:"100%",objectFit:"cover",zIndex:0}} src="https://github.com/nourtrades/vanquish/releases/download/v1.0/icantchillyet_Realistic_cinematic_3840__2160_image_stock_trad_7539b1dc-f2b7-4188-a42c-e698d7cb4b7c_1.mp4" />
+      <section className="vq-section vq-video-section" style={{padding:"56px 32px",position:"relative",overflow:"hidden",borderTop:`1px solid ${C.cardBorder}`}}>
+        <BgVideo src="https://github.com/nourtrades/vanquish/releases/download/v1.0/icantchillyet_Realistic_cinematic_3840__2160_image_stock_trad_7539b1dc-f2b7-4188-a42c-e698d7cb4b7c_1.mp4" />
         <div style={{position:"absolute",inset:0,background:"rgba(0,0,0,0.65)",zIndex:0}} />
 
         <div style={{...S,position:"relative",zIndex:1}}>
@@ -409,8 +427,8 @@ export default function LandingPage() {
       </section>
 
       {/* ═══════════ MARCH COMPETITION — Video Background ═══════════ */}
-      <section id="competition" className="vq-section" style={{padding:"64px 32px",position:"relative",overflow:"hidden",borderTop:`1px solid ${C.cardBorder}`}}>
-        <video autoPlay muted loop playsInline style={{position:"absolute",inset:0,width:"100%",height:"100%",objectFit:"cover",zIndex:0}} src="https://github.com/nourtrades/vanquish/releases/download/v1.0/icantchillyet_Realistic_cinematic_3840__2160_image_trading_co_8d96d1a8-3c6f-4874-bf78-c7f737bd21e2_1.mp4" />
+      <section id="competition" className="vq-section vq-video-section" style={{padding:"64px 32px",position:"relative",overflow:"hidden",borderTop:`1px solid ${C.cardBorder}`}}>
+        <BgVideo src="https://github.com/nourtrades/vanquish/releases/download/v1.0/icantchillyet_Realistic_cinematic_3840__2160_image_trading_co_8d96d1a8-3c6f-4874-bf78-c7f737bd21e2_1.mp4" />
         <div style={{position:"absolute",inset:0,background:"rgba(0,0,0,0.65)",zIndex:0}} />
 
         <div style={{...S,maxWidth:720,textAlign:"center",position:"relative",zIndex:1}}>
@@ -542,8 +560,8 @@ export default function LandingPage() {
       </section>
 
       {/* ═══════════ FINAL CTA — Video backdrop ═══════════ */}
-      <section className="vq-section" style={{padding:"72px 32px",textAlign:"center",position:"relative",overflow:"hidden",borderTop:`1px solid ${C.cardBorder}`}}>
-        <video autoPlay muted loop playsInline style={{position:"absolute",inset:0,width:"100%",height:"100%",objectFit:"cover",zIndex:0}} src="https://github.com/nourtrades/vanquish/releases/download/v1.0/icantchillyet_Realistic_cinematic_3840__2160_image_stock_char_f152a47b-3bf9-46a4-99a3-138049886f70_1.1.mp4" />
+      <section className="vq-section vq-video-section" style={{padding:"72px 32px",textAlign:"center",position:"relative",overflow:"hidden",borderTop:`1px solid ${C.cardBorder}`}}>
+        <BgVideo src="https://github.com/nourtrades/vanquish/releases/download/v1.0/icantchillyet_Realistic_cinematic_3840__2160_image_stock_char_f152a47b-3bf9-46a4-99a3-138049886f70_1.1.mp4" />
         <div style={{position:"absolute",inset:0,background:"rgba(0,0,0,0.65)",zIndex:0}} />
         <div className="noise-overlay" />
 
