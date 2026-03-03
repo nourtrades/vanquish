@@ -374,16 +374,10 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* ═══════════ MARCH COMPETITION — Radial Burst + Planet BG ═══════════ */}
+      {/* ═══════════ MARCH COMPETITION — Video Background ═══════════ */}
       <section id="competition" style={{padding:"120px 32px",position:"relative",overflow:"hidden",borderTop:`1px solid ${C.cardBorder}`}}>
-        {/* Rotating 3D Logo — color-dodge */}
-        <div className="rotate-bg-wrap" style={{width:650,height:650}}>
-          <div className="rotate-bg-spin" style={{backgroundImage:`url(${ROTATE_BG})`,opacity:0.5}} />
-        </div>
-        <div className="hex-pattern" style={{opacity:0.04}} />
-        <div className="glow-orb" style={{width:700,height:700,background:"radial-gradient(circle,rgba(0,200,83,0.1) 0%,rgba(0,200,83,0.02) 40%,transparent 60%)",top:"50%",left:"50%"}} />
-        <div style={{position:"absolute",top:"50%",left:"50%",transform:"translate(-50%,-50%)",width:750,height:750,borderRadius:"50%",border:"1px solid rgba(0,200,83,0.06)",pointerEvents:"none"}} />
-        <div style={{position:"absolute",top:"50%",left:"50%",transform:"translate(-50%,-50%)",width:700,height:700,borderRadius:"50%",border:"1px solid rgba(0,200,83,0.03)",pointerEvents:"none"}} />
+        <video autoPlay muted loop playsInline style={{position:"absolute",inset:0,width:"100%",height:"100%",objectFit:"cover",zIndex:0}} src="https://github.com/nourtrades/vanquish/releases/download/v1.0/icantchillyet_Realistic_cinematic_3840__2160_image_trading_co_8d96d1a8-3c6f-4874-bf78-c7f737bd21e2_1.mp4" />
+        <div style={{position:"absolute",inset:0,background:"rgba(0,0,0,0.65)",zIndex:0}} />
 
         <div style={{...S,maxWidth:720,textAlign:"center",position:"relative",zIndex:1}}>
           <div style={{display:"inline-flex",alignItems:"center",gap:8,background:"rgba(0,200,83,0.1)",borderRadius:100,padding:"6px 18px",marginBottom:24}}>
