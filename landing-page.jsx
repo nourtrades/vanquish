@@ -204,6 +204,7 @@ function FAQ({q,a}) {
   );
 }
 
+
 export default function LandingPage() {
   const [scrollY, setScrollY] = useState(0);
   const [leaderboard, setLeaderboard] = useState(null);
