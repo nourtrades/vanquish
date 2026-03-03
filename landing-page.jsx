@@ -210,9 +210,8 @@ export default function LandingPage() {
 
         <div style={{...S,position:"relative",zIndex:1,textAlign:"center"}}>
           <div style={{animation:"fadeUp .8s ease both"}}>
-            <p style={{...label,marginBottom:24}}>THE FIRST REGULATED OPTIONS PROP FIRM</p>
-            <h1 style={{fontFamily:"'Bebas Neue',sans-serif",fontSize:"clamp(52px,10vw,96px)",letterSpacing:3,lineHeight:.95,margin:"0 auto",maxWidth:900}}>
-              Trade stocks & options with funded capital
+            <h1 style={{fontFamily:"'Bebas Neue',sans-serif",fontSize:"clamp(52px,10vw,96px)",letterSpacing:3,lineHeight:.95,margin:"0 auto",maxWidth:900,color:"#fff"}}>
+              THE FIRST REGULATED OPTIONS PROP FIRM
             </h1>
             <p style={{...sub,margin:"24px auto 0",maxWidth:560,textAlign:"center"}}>
               Get up to $150K from Vanquish Trader. Keep 100% of your profits. Risk nothing.
@@ -266,6 +265,7 @@ export default function LandingPage() {
       {/* ═══════════ VIDEO ═══════════ */}
       <section id="video" style={{padding:"0 32px 120px",position:"relative"}}>
         <div style={{...S,maxWidth:880}}>
+          <h2 style={{fontFamily:"'Bebas Neue',sans-serif",fontSize:"clamp(36px,6vw,56px)",letterSpacing:2,lineHeight:1,color:C.green,textAlign:"center",marginBottom:48}}>Trade stocks & options with funded capital</h2>
           <div style={{position:"relative",paddingBottom:"56.25%",borderRadius:16,overflow:"hidden",border:"1px solid rgba(0,200,83,0.15)",boxShadow:"0 0 60px rgba(0,200,83,0.08), 0 40px 80px rgba(0,0,0,0.5)"}}>
             <iframe src="https://www.youtube.com/embed/jgsFStjJOS4" title="Vanquish Trader" style={{position:"absolute",inset:0,width:"100%",height:"100%",border:"none"}} allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen />
           </div>
