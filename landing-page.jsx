@@ -147,21 +147,32 @@ const BgVideo = ({src}) => {
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
+    let cancelled = false;
     const tryPlay = () => { el.play().catch(() => {}); };
-    // Fetch as blob to get proper video/mp4 MIME type (GitHub serves octet-stream with redirects)
-    fetch(src).then(r => r.blob()).then(b => {
-      const url = URL.createObjectURL(new Blob([b], {type:"video/mp4"}));
-      el.src = url;
-      el.load();
-      tryPlay();
-    }).catch(() => { el.src = src; el.load(); tryPlay(); });
+
+    // Resolve GitHub's 302 redirect to get the direct URL.
+    // Don't download the whole video as a blob — it's too large for mobile memory.
+    const ctrl = new AbortController();
+    fetch(src, { signal: ctrl.signal })
+      .then(r => { const url = r.url; ctrl.abort(); return url; })
+      .catch(() => src)
+      .then(directUrl => {
+        if (cancelled) return;
+        el.src = directUrl;
+        el.load();
+        tryPlay();
+      });
+
+    // Retry play when section scrolls into view
     const io = new IntersectionObserver(([e]) => { if (e.isIntersecting) tryPlay(); }, {threshold:0.1});
     io.observe(el);
-    const onTouch = () => { tryPlay(); };
-    document.addEventListener("touchstart", onTouch, {once:true});
-    return () => { io.disconnect(); document.removeEventListener("touchstart", onTouch); };
+
+    // iOS requires a user gesture to start playback
+    const onTouch = () => tryPlay();
+    document.addEventListener("touchstart", onTouch, {passive:true});
+    return () => { cancelled = true; ctrl.abort(); io.disconnect(); document.removeEventListener("touchstart", onTouch); };
   }, [src]);
-  return <video ref={ref} autoPlay muted loop playsInline style={{position:"absolute",inset:0,width:"100%",height:"100%",objectFit:"cover",zIndex:0}} />;
+  return <video ref={ref} muted loop playsInline preload="auto" style={{position:"absolute",inset:0,width:"100%",height:"100%",objectFit:"cover",zIndex:0}} />;
 };
 
 
