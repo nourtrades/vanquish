@@ -423,22 +423,19 @@ export default function LandingPage() {
 
           {/* ── Live Leaderboard Table ── */}
           {showBoard && (
-            <div style={{marginTop:48,maxWidth:640,marginLeft:"auto",marginRight:"auto",background:"rgba(0,0,0,0.6)",border:`1px solid ${C.cardBorder}`,borderRadius:16,overflow:"hidden",backdropFilter:"blur(12px)"}}>
-              <div style={{display:"grid",gridTemplateColumns:"56px 1fr 110px 80px 80px",padding:"14px 24px",borderBottom:`1px solid ${C.cardBorder}`,background:"rgba(0,200,83,0.06)"}}>
-                {["#","TRADER","PAYOUT","TRADES","WIN %"].map(h => (
-                  <span key={h} style={{fontSize:11,fontWeight:700,letterSpacing:2,color:C.green,textAlign:h==="#"||h==="TRADER"?"left":"right"}}>{h}</span>
+            <div style={{marginTop:48,maxWidth:480,marginLeft:"auto",marginRight:"auto",background:"rgba(0,0,0,0.6)",border:`1px solid ${C.cardBorder}`,borderRadius:16,overflow:"hidden",backdropFilter:"blur(12px)"}}>
+              <div style={{display:"grid",gridTemplateColumns:"60px 1fr 120px",padding:"14px 24px",borderBottom:`1px solid ${C.cardBorder}`,background:"rgba(0,200,83,0.06)"}}>
+                {["PLACE","NAME","PAYOUT"].map(h => (
+                  <span key={h} style={{fontSize:11,fontWeight:700,letterSpacing:2,color:C.green,textAlign:h==="PAYOUT"?"right":"left"}}>{h}</span>
                 ))}
               </div>
               {leaderboard && leaderboard.traders ? leaderboard.traders.map((t,i) => {
                 const isTop3 = i < 3;
-                const medal = i === 0 ? "1st" : i === 1 ? "2nd" : i === 2 ? "3rd" : null;
                 return (
-                  <div key={t.name} style={{display:"grid",gridTemplateColumns:"56px 1fr 110px 80px 80px",padding:"14px 24px",borderBottom:`1px solid ${C.cardBorder}`,background:isTop3?"rgba(0,200,83,0.04)":"transparent",transition:"background .2s"}}>
-                    <span style={{fontSize:14,fontWeight:800,color:isTop3?C.green:"#fff"}}>{medal || t.rank}</span>
+                  <div key={t.name} style={{display:"grid",gridTemplateColumns:"60px 1fr 120px",padding:"14px 24px",borderBottom:`1px solid ${C.cardBorder}`,background:isTop3?"rgba(0,200,83,0.04)":"transparent"}}>
+                    <span style={{fontSize:14,fontWeight:800,color:isTop3?C.green:"#fff"}}>{t.rank}</span>
                     <span style={{fontSize:14,fontWeight:600,color:"#fff"}}>{t.name}</span>
                     <span style={{fontSize:14,fontWeight:700,color:isTop3?C.green:"#fff",textAlign:"right"}}>${t.payout.toLocaleString()}</span>
-                    <span style={{fontSize:13,color:"rgba(255,255,255,0.7)",textAlign:"right"}}>{t.trades}</span>
-                    <span style={{fontSize:13,color:"rgba(255,255,255,0.7)",textAlign:"right"}}>{t.winRate}%</span>
                   </div>
                 );
               }) : (
