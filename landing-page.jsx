@@ -190,7 +190,7 @@ export default function LandingPage() {
             <img src={VQ_LOGO} alt="V" style={{width:48,height:48}} />
           </div>
           <div style={{display:"flex",alignItems:"center",gap:28}}>
-            {["How It Works","Payouts","Compare","FAQ"].map(t => (
+            {["Payouts","How It Works","Compare","FAQ"].map(t => (
               <a key={t} href={`#${t.toLowerCase().replace(/\s+/g,"-")}`} style={{color:C.textSoft,textDecoration:"none",fontSize:14,fontWeight:500}}>{t}</a>
             ))}
             <a href={LINK} target="_blank" rel="noopener noreferrer" style={{...btn,padding:"10px 24px",fontSize:14}}>Get Funded</a>
@@ -463,7 +463,7 @@ export default function LandingPage() {
             <div style={{display:"flex",gap:48,flexWrap:"wrap"}}>
               <div>
                 <div style={{fontSize:12,fontWeight:700,color:C.textMuted,letterSpacing:2,marginBottom:16}}>NAVIGATE</div>
-                {["How It Works","Payouts","Compare","FAQ"].map(l => (
+                {["Payouts","How It Works","Compare","FAQ"].map(l => (
                   <a key={l} href={`#${l.toLowerCase().replace(/\s+/g,"-")}`} style={{display:"block",color:C.textSoft,textDecoration:"none",fontSize:14,marginBottom:10,fontWeight:500}}>{l}</a>
                 ))}
               </div>
