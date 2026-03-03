@@ -23,8 +23,8 @@ const ROTATE_BG = "data:image/png;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1B
 const css = `
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Bebas+Neue&display=swap');
   *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-  html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
-  body{background:#000}
+  html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  body{background:#000;overflow-x:hidden}
 
   @keyframes fadeUp{from{opacity:0;transform:translateY(40px)}to{opacity:1;transform:translateY(0)}}
   @keyframes marquee{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
@@ -109,6 +109,22 @@ const css = `
   .hex-pattern{
     position:absolute;inset:0;pointer-events:none;opacity:0.025;
     background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='100'%3E%3Cpath d='M28 66L0 50V16l28-16 28 16v34L28 66zm0 34L0 84V66l28 16 28-16v18L28 100z' fill='none' stroke='%2300C853' stroke-width='0.5'/%3E%3C/svg%3E");
+  }
+
+  /* ══ Mobile Responsive ══ */
+  @media(max-width:768px){
+    .nav-links .nav-link-item{display:none!important}
+    .marquee-track{gap:16px}
+    .comparison-grid{grid-template-columns:1fr 72px 72px!important}
+    .comparison-grid span,.comparison-grid div{font-size:13px!important;padding:12px 12px!important}
+    .stats-ribbon{flex-direction:column!important}
+    .stats-ribbon>div{border-right:none!important;border-bottom:1px solid rgba(255,255,255,0.06)!important;padding:20px 16px!important}
+    .stats-ribbon>div:last-child{border-bottom:none!important}
+    .step-grid{grid-template-columns:1fr!important}
+    .why-grid{grid-template-columns:1fr 1fr!important}
+  }
+  @media(max-width:480px){
+    .why-grid{grid-template-columns:1fr!important}
   }
 `;
 
@@ -203,9 +219,9 @@ export default function LandingPage() {
           <div style={{display:"flex",alignItems:"center",gap:10}}>
             <img src={VQ_LOGO} alt="V" style={{width:48,height:48}} />
           </div>
-          <div style={{display:"flex",alignItems:"center",gap:28}}>
+          <div className="nav-links" style={{display:"flex",alignItems:"center",gap:28}}>
             {["Payouts","How It Works","Compare","FAQ"].map(t => (
-              <a key={t} href={`#${t.toLowerCase().replace(/\s+/g,"-")}`} style={{color:"#FFFFFF",textDecoration:"none",fontSize:14,fontWeight:500}}>{t}</a>
+              <a key={t} className="nav-link-item" href={`#${t.toLowerCase().replace(/\s+/g,"-")}`} style={{color:"#FFFFFF",textDecoration:"none",fontSize:14,fontWeight:500}}>{t}</a>
             ))}
             <a href={LINK} target="_blank" rel="noopener noreferrer" style={{...btn,padding:"10px 24px",fontSize:14}}>Get Funded</a>
           </div>
@@ -244,7 +260,7 @@ export default function LandingPage() {
           </div>
 
           {/* ─── Alpha Capital-style Stats Ribbon ─── */}
-          <div style={{
+          <div className="stats-ribbon" style={{
             marginTop:32,display:"flex",alignItems:"center",justifyContent:"center",
             gap:0,flexWrap:"wrap",position:"relative",
             background:"rgba(255,255,255,0.02)",
@@ -316,7 +332,7 @@ export default function LandingPage() {
           <h2 style={h2s}>Get funded in<br/>3 simple steps</h2>
           <p style={sub}>No complicated rules. No hidden requirements. Just trade.</p>
 
-          <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(300px,1fr))",gap:1,marginTop:72,background:C.cardBorder,borderRadius:20,overflow:"hidden"}}>
+          <div className="step-grid" style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(300px,1fr))",gap:1,marginTop:72,background:C.cardBorder,borderRadius:20,overflow:"hidden"}}>
             {[
               {n:"01",t:"Choose your account",d:"Pick your funded account size — up to $150K. Use code NOUR for a special discount."},
               {n:"02",t:"Complete 10 trades",d:"Pass a simple evaluation with just 10 trades. No time limit. Trade stocks or options."},
@@ -343,7 +359,7 @@ export default function LandingPage() {
             <p style={{...label,textAlign:"center"}}>Why Vanquish</p>
             <h2 style={{...h2s,textAlign:"center"}}>Built for traders<br/>who want more</h2>
           </div>
-          <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(240px,1fr))",gap:1,background:C.cardBorder,borderRadius:20,overflow:"hidden"}}>
+          <div className="why-grid" style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(240px,1fr))",gap:1,background:C.cardBorder,borderRadius:20,overflow:"hidden"}}>
             {[
               {icon:<Shield/>,t:"Regulated Firm",d:"The first regulated options prop firm — your capital is protected."},
               {icon:<Lock/>,t:"100% Profit Share",d:"Every dollar you make is yours. No splits, no hidden takes."},
@@ -372,13 +388,13 @@ export default function LandingPage() {
           <p style={sub}>See how Vanquish stacks up against other prop firms.</p>
 
           <div style={{marginTop:56,borderRadius:16,overflow:"hidden",border:`1px solid rgba(0,200,83,0.12)`,background:"rgba(5,5,5,0.8)",backdropFilter:"blur(10px)"}}>
-            <div style={{display:"grid",gridTemplateColumns:"1fr 100px 100px",padding:"16px 28px",background:"rgba(0,200,83,0.04)",borderBottom:`1px solid ${C.cardBorder}`}}>
+            <div className="comparison-grid" style={{display:"grid",gridTemplateColumns:"1fr 100px 100px",padding:"16px 28px",background:"rgba(0,200,83,0.04)",borderBottom:`1px solid ${C.cardBorder}`}}>
               <span />
               <span style={{fontSize:13,fontWeight:800,color:C.green,textAlign:"center"}}>Vanquish</span>
               <span style={{fontSize:13,fontWeight:600,color:C.textMuted,textAlign:"center"}}>Others</span>
             </div>
             {["Stocks & Options","10-Trade Evaluation","No Time Limit","100% Profit Share","Instant Payouts","No Hidden Fees","Regulated"].map((f,i) => (
-              <div key={i} style={{display:"grid",gridTemplateColumns:"1fr 100px 100px",padding:"18px 28px",borderBottom:i<6?"1px solid rgba(255,255,255,0.04)":"none"}}>
+              <div key={i} className="comparison-grid" style={{display:"grid",gridTemplateColumns:"1fr 100px 100px",padding:"18px 28px",borderBottom:i<6?"1px solid rgba(255,255,255,0.04)":"none"}}>
                 <span style={{fontSize:15,fontWeight:500,color:"rgba(255,255,255,0.75)"}}>{f}</span>
                 <div style={{display:"flex",justifyContent:"center"}}><CheckSvg/></div>
                 <div style={{display:"flex",justifyContent:"center"}}><XSvg/></div>
@@ -522,7 +538,7 @@ export default function LandingPage() {
         <div className="noise-overlay" />
 
         <div style={{...S,position:"relative",zIndex:1}}>
-          <h2 style={{...h2s,fontSize:"clamp(32px,5vw,56px)",maxWidth:800,margin:"0 auto",whiteSpace:"nowrap"}}>Start trading with funded capital</h2>
+          <h2 style={{...h2s,fontSize:"clamp(32px,5vw,56px)",maxWidth:800,margin:"0 auto"}}>Start trading with funded capital</h2>
           <p style={{...sub,margin:"24px auto 0",textAlign:"center",maxWidth:480}}>Use code NOUR for a discount on all accounts. No risk to your own money.</p>
           <div style={{marginTop:48}}>
             <a href={LINK} target="_blank" rel="noopener noreferrer" style={{...btn,fontSize:18,padding:"18px 48px",boxShadow:"0 0 40px rgba(0,200,83,0.25)"}}>Get Funded</a>
