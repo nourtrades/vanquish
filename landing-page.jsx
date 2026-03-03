@@ -319,11 +319,10 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* ═══════════ WHY VANQUISH — Static Grid + Blue/Green Orbs ═══════════ */}
+      {/* ═══════════ WHY VANQUISH — Video Background ═══════════ */}
       <section style={{padding:"100px 32px",position:"relative",overflow:"hidden",borderTop:`1px solid ${C.cardBorder}`}}>
-        <div className="futuristic-grid-static" />
-        <div className="glow-orb" style={{width:350,height:350,background:"radial-gradient(circle,rgba(0,100,255,0.06) 0%,transparent 60%)",top:"20%",left:"10%",animationDelay:"4s"}} />
-        <div className="glow-orb" style={{width:400,height:400,background:"radial-gradient(circle,rgba(0,200,83,0.06) 0%,transparent 60%)",bottom:"10%",right:"5%",animationDelay:"1s"}} />
+        <video autoPlay muted loop playsInline style={{position:"absolute",inset:0,width:"100%",height:"100%",objectFit:"cover",zIndex:0}} src="https://github.com/nourtrades/vanquish/releases/download/v1.0/icantchillyet_Realistic_cinematic_3840__2160_image_stock_trad_7539b1dc-f2b7-4188-a42c-e698d7cb4b7c_1.mp4" />
+        <div style={{position:"absolute",inset:0,background:"rgba(0,0,0,0.65)",zIndex:0}} />
 
         <div style={{...S,position:"relative",zIndex:1}}>
           <div style={{textAlign:"center",marginBottom:64}}>
