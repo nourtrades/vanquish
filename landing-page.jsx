@@ -419,7 +419,10 @@ export default function LandingPage() {
             <Countdown />
           </div>
 
-          <button onClick={() => setShowBoard(!showBoard)} style={btn}>{showBoard ? "Hide Leaderboard" : "View Leaderboard"}</button>
+          <div style={{display:"flex",gap:12,justifyContent:"center",flexWrap:"wrap"}}>
+            <button onClick={() => setShowBoard(!showBoard)} style={btn}>{showBoard ? "Hide Leaderboard" : "View Leaderboard"}</button>
+            <a href="/submit" style={{...btn,background:"transparent",color:"#fff",border:"1px solid rgba(255,255,255,0.2)"}}>Submit Your Payout</a>
+          </div>
 
           {/* ── Live Leaderboard Table ── */}
           {showBoard && (
