@@ -456,7 +456,6 @@ export default function LandingPage() {
             <div>
               <div style={{display:"flex",alignItems:"center",gap:10,marginBottom:16}}>
                 <img src={VQ_LOGO} alt="" style={{width:28,height:28}} />
-                <span style={{fontFamily:"'Bebas Neue',sans-serif",fontSize:15,letterSpacing:3,color:C.textMuted}}>NOUR TRADES</span>
               </div>
               <p style={{fontSize:13,color:C.textMuted,maxWidth:300,lineHeight:1.7}}>Trading involves risk. Past results do not guarantee future performance. Vanquish Trader provides funded accounts for qualified traders.</p>
             </div>
@@ -474,7 +473,7 @@ export default function LandingPage() {
               </div>
             </div>
           </div>
-          <div style={{borderTop:`1px solid ${C.cardBorder}`,marginTop:40,paddingTop:24,fontSize:12,color:"rgba(255,255,255,0.15)"}}>© {new Date().getFullYear()} Nour Trades. All rights reserved.</div>
+          <div style={{borderTop:`1px solid ${C.cardBorder}`,marginTop:40,paddingTop:24,fontSize:12,color:"rgba(255,255,255,0.15)"}}>© {new Date().getFullYear()} StockHours LLC. All rights reserved.</div>
         </div>
       </footer>
     </div>
