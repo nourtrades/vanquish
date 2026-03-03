@@ -118,10 +118,14 @@ const css = `
     .comparison-grid{grid-template-columns:1fr 72px 72px!important}
     .comparison-grid span,.comparison-grid div{font-size:13px!important;padding:12px 12px!important}
     .stats-ribbon{flex-direction:column!important}
-    .stats-ribbon>div{border-right:none!important;border-bottom:1px solid rgba(255,255,255,0.06)!important;padding:20px 16px!important}
+    .stats-ribbon>div{border-right:none!important;border-bottom:1px solid rgba(255,255,255,0.06)!important;padding:14px 16px!important}
     .stats-ribbon>div:last-child{border-bottom:none!important}
     .step-grid{grid-template-columns:1fr!important}
     .why-grid{grid-template-columns:1fr 1fr!important}
+    .vq-section{padding-top:40px!important;padding-bottom:40px!important}
+    .vq-hero{padding-top:56px!important;padding-bottom:40px!important}
+    .vq-sub{font-size:15px!important;margin-top:14px!important}
+    .vq-h2{font-size:clamp(32px,6vw,56px)!important}
   }
   @media(max-width:480px){
     .why-grid{grid-template-columns:1fr!important}
@@ -229,7 +233,7 @@ export default function LandingPage() {
       </nav>
 
       {/* ═══════════ HERO — Globe peeks from bottom ═══════════ */}
-      <section style={{padding:"140px 32px 120px",position:"relative",overflow:"hidden"}}>
+      <section style={{padding:"80px 32px 64px",position:"relative",overflow:"hidden"}} className="vq-hero">
         {/* Globe — positioned at bottom center, peeking up */}
         <div style={{position:"absolute",bottom:"-35%",left:"50%",transform:"translateX(-50%) scale(1.5)",width:1000,height:1000,pointerEvents:"none",zIndex:0}}>
           <div className="rotate-bg-spin" style={{backgroundImage:`url(${ROTATE_BG})`,borderRadius:"50%"}} />
@@ -246,11 +250,11 @@ export default function LandingPage() {
             <p style={{...sub,margin:"24px auto 0",maxWidth:560,textAlign:"center"}}>
               Get up to $150K from Vanquish Trader. Keep 100% of your profits. Risk nothing.
             </p>
-            <div style={{display:"flex",justifyContent:"center",gap:16,marginTop:44,flexWrap:"wrap"}}>
+            <div style={{display:"flex",justifyContent:"center",gap:16,marginTop:28,flexWrap:"wrap"}}>
               <a href={LINK} target="_blank" rel="noopener noreferrer" style={btn}>Get Funded</a>
               <a href="#video" style={{...btn,background:"transparent",color:"#fff",border:"1px solid rgba(255,255,255,0.15)"}}>Watch Video</a>
             </div>
-            <a href="https://www.trustpilot.com/review/vanquishtrader.com" target="_blank" rel="noopener noreferrer" style={{display:"inline-flex",alignItems:"center",gap:10,marginTop:40,textDecoration:"none",padding:"14px 28px",background:"rgba(255,255,255,0.02)",border:"1px solid rgba(255,255,255,0.06)",borderRadius:12,backdropFilter:"blur(8px)",WebkitBackdropFilter:"blur(8px)"}}>
+            <a href="https://www.trustpilot.com/review/vanquishtrader.com" target="_blank" rel="noopener noreferrer" style={{display:"inline-flex",alignItems:"center",gap:10,marginTop:24,textDecoration:"none",padding:"14px 28px",background:"rgba(255,255,255,0.02)",border:"1px solid rgba(255,255,255,0.06)",borderRadius:12,backdropFilter:"blur(8px)",WebkitBackdropFilter:"blur(8px)"}}>
               <span style={{fontSize:14,fontWeight:600,color:"#fff"}}>Excellent</span>
               <div style={{display:"flex",gap:2}}>
                 {[1,2,3,4,5].map(i => <div key={i} style={{width:20,height:20,background:C.trustpilot,display:"flex",alignItems:"center",justifyContent:"center",borderRadius:2}}><StarSvg size={11}/></div>)}
@@ -261,7 +265,7 @@ export default function LandingPage() {
 
           {/* ─── Alpha Capital-style Stats Ribbon ─── */}
           <div className="stats-ribbon" style={{
-            marginTop:32,display:"flex",alignItems:"center",justifyContent:"center",
+            marginTop:20,display:"flex",alignItems:"center",justifyContent:"center",
             gap:0,flexWrap:"wrap",position:"relative",
             background:"rgba(255,255,255,0.02)",
             border:"1px solid rgba(255,255,255,0.06)",
@@ -293,9 +297,9 @@ export default function LandingPage() {
       </section>
 
       {/* ═══════════ VIDEO ═══════════ */}
-      <section id="video" style={{padding:"80px 32px 120px",position:"relative"}}>
+      <section id="video" className="vq-section" style={{padding:"48px 32px 64px",position:"relative"}}>
         <div style={{...S,maxWidth:880}}>
-          <h2 style={{fontFamily:"'Bebas Neue',sans-serif",fontSize:"clamp(28px,4vw,48px)",letterSpacing:1,lineHeight:1.1,color:"#fff",textAlign:"center",marginBottom:48}}>WHY YOU NEED TO CHOOSE VANQUISH TRADER</h2>
+          <h2 style={{fontFamily:"'Bebas Neue',sans-serif",fontSize:"clamp(28px,4vw,48px)",letterSpacing:1,lineHeight:1.1,color:"#fff",textAlign:"center",marginBottom:28}}>WHY YOU NEED TO CHOOSE VANQUISH TRADER</h2>
           <div style={{position:"relative",paddingBottom:"56.25%",borderRadius:16,overflow:"hidden",border:"1px solid rgba(0,200,83,0.15)",boxShadow:"0 0 60px rgba(0,200,83,0.08), 0 40px 80px rgba(0,0,0,0.5)"}}>
             <iframe src="https://www.youtube.com/embed/jgsFStjJOS4" title="Vanquish Trader" style={{position:"absolute",inset:0,width:"100%",height:"100%",border:"none"}} allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen />
           </div>
@@ -303,12 +307,12 @@ export default function LandingPage() {
       </section>
 
       {/* ═══════════ PAYOUTS — Hex Pattern + Scanlines ═══════════ */}
-      <section id="payouts" style={{padding:"120px 0",position:"relative",overflow:"hidden",borderTop:`1px solid ${C.cardBorder}`}}>
+      <section id="payouts" className="vq-section" style={{padding:"64px 0",position:"relative",overflow:"hidden",borderTop:`1px solid ${C.cardBorder}`}}>
         <div className="hex-pattern" />
         <div className="scanline-effect" />
         <div className="glow-orb" style={{width:750,height:750,background:"radial-gradient(circle,rgba(0,200,83,0.1) 0%,transparent 60%)",top:"50%",left:"50%",transform:"translate(-50%,-50%)"}} />
 
-        <div style={{...S,marginBottom:48,position:"relative",zIndex:1}}>
+        <div style={{...S,marginBottom:28,position:"relative",zIndex:1}}>
           <p style={label}>Verified Results</p>
           <h2 style={h2s}>Our traders are<br/>getting paid</h2>
           <p style={sub}>Real withdrawals from real traders. No smoke and mirrors.</p>
@@ -323,7 +327,7 @@ export default function LandingPage() {
       </section>
 
       {/* ═══════════ HOW IT WORKS — Animated Grid + Hex Pattern ═══════════ */}
-      <section id="how-it-works" style={{padding:"120px 32px",position:"relative",overflow:"hidden",borderTop:`1px solid ${C.cardBorder}`}}>
+      <section id="how-it-works" className="vq-section" style={{padding:"64px 32px",position:"relative",overflow:"hidden",borderTop:`1px solid ${C.cardBorder}`}}>
         <div className="futuristic-grid" />
         <div className="glow-orb" style={{width:400,height:400,background:"radial-gradient(circle,rgba(0,200,83,0.08) 0%,transparent 60%)",top:"30%",right:"-5%",animationDelay:"2s"}} />
 
@@ -332,13 +336,13 @@ export default function LandingPage() {
           <h2 style={h2s}>Get funded in<br/>3 simple steps</h2>
           <p style={sub}>No complicated rules. No hidden requirements. Just trade.</p>
 
-          <div className="step-grid" style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(300px,1fr))",gap:1,marginTop:72,background:C.cardBorder,borderRadius:20,overflow:"hidden"}}>
+          <div className="step-grid" style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(300px,1fr))",gap:1,marginTop:40,background:C.cardBorder,borderRadius:20,overflow:"hidden"}}>
             {[
               {n:"01",t:"Choose your account",d:"Pick your funded account size — up to $150K. Use code NOUR for a special discount."},
               {n:"02",t:"Complete 10 trades",d:"Pass a simple evaluation with just 10 trades. No time limit. Trade stocks or options."},
               {n:"03",t:"Keep your profits",d:"Once funded, you keep 100% of your profits. Request instant payouts anytime."},
             ].map((s,i) => (
-              <div key={i} style={{background:"rgba(10,10,10,0.9)",padding:"48px 40px",position:"relative",overflow:"hidden"}}>
+              <div key={i} style={{background:"rgba(10,10,10,0.9)",padding:"36px 32px",position:"relative",overflow:"hidden"}}>
                 <div style={{position:"absolute",top:-30,right:-30,width:120,height:120,borderRadius:"50%",background:"radial-gradient(circle,rgba(0,200,83,0.06) 0%,transparent 70%)",pointerEvents:"none"}} />
                 <span style={{fontFamily:"'Bebas Neue',sans-serif",fontSize:48,color:"#00C853",lineHeight:1}}>{s.n}</span>
                 <h3 style={{fontSize:22,fontWeight:700,color:"#fff",margin:"20px 0 12px"}}>{s.t}</h3>
@@ -350,12 +354,12 @@ export default function LandingPage() {
       </section>
 
       {/* ═══════════ WHY VANQUISH — Video Background ═══════════ */}
-      <section style={{padding:"100px 32px",position:"relative",overflow:"hidden",borderTop:`1px solid ${C.cardBorder}`}}>
+      <section className="vq-section" style={{padding:"56px 32px",position:"relative",overflow:"hidden",borderTop:`1px solid ${C.cardBorder}`}}>
         <video autoPlay muted loop playsInline style={{position:"absolute",inset:0,width:"100%",height:"100%",objectFit:"cover",zIndex:0}} src="https://github.com/nourtrades/vanquish/releases/download/v1.0/icantchillyet_Realistic_cinematic_3840__2160_image_stock_trad_7539b1dc-f2b7-4188-a42c-e698d7cb4b7c_1.mp4" />
         <div style={{position:"absolute",inset:0,background:"rgba(0,0,0,0.65)",zIndex:0}} />
 
         <div style={{...S,position:"relative",zIndex:1}}>
-          <div style={{textAlign:"center",marginBottom:64}}>
+          <div style={{textAlign:"center",marginBottom:36}}>
             <p style={{...label,textAlign:"center"}}>Why Vanquish</p>
             <h2 style={{...h2s,textAlign:"center"}}>Built for traders<br/>who want more</h2>
           </div>
@@ -366,7 +370,7 @@ export default function LandingPage() {
               {icon:<UsersIcon/>,t:"Stocks & Options",d:"Trade across US equity markets — both stocks and options."},
               {icon:<ClockIcon/>,t:"Instant Payouts",d:"Request your withdrawal and get paid fast. No waiting."},
             ].map((item,i) => (
-              <div key={i} style={{background:"rgba(10,10,10,0.9)",padding:"44px 36px",textAlign:"center",position:"relative",overflow:"hidden"}}>
+              <div key={i} style={{background:"rgba(10,10,10,0.9)",padding:"32px 28px",textAlign:"center",position:"relative",overflow:"hidden"}}>
                 <div style={{position:"absolute",inset:0,background:"radial-gradient(ellipse at top,rgba(0,200,83,0.03) 0%,transparent 50%)",pointerEvents:"none"}} />
                 <div style={{display:"inline-flex",marginBottom:20,position:"relative",zIndex:1}}>{item.icon}</div>
                 <h4 style={{fontSize:16,fontWeight:700,color:"#fff",marginBottom:8,position:"relative",zIndex:1}}>{item.t}</h4>
@@ -378,7 +382,7 @@ export default function LandingPage() {
       </section>
 
       {/* ═══════════ COMPARISON — Perspective Grid Bottom ═══════════ */}
-      <section id="compare" style={{padding:"120px 32px",position:"relative",overflow:"hidden",borderTop:`1px solid ${C.cardBorder}`}}>
+      <section id="compare" className="vq-section" style={{padding:"64px 32px",position:"relative",overflow:"hidden",borderTop:`1px solid ${C.cardBorder}`}}>
         <div className="perspective-grid" style={{opacity:0.6}} />
         <div className="noise-overlay" />
 
@@ -387,7 +391,7 @@ export default function LandingPage() {
           <h2 style={h2s}>No hidden rules.<br/>No extra fees.</h2>
           <p style={sub}>See how Vanquish stacks up against other prop firms.</p>
 
-          <div style={{marginTop:56,borderRadius:16,overflow:"hidden",border:`1px solid rgba(0,200,83,0.12)`,background:"rgba(5,5,5,0.8)",backdropFilter:"blur(10px)"}}>
+          <div style={{marginTop:32,borderRadius:16,overflow:"hidden",border:`1px solid rgba(0,200,83,0.12)`,background:"rgba(5,5,5,0.8)",backdropFilter:"blur(10px)"}}>
             <div className="comparison-grid" style={{display:"grid",gridTemplateColumns:"1fr 100px 100px",padding:"16px 28px",background:"rgba(0,200,83,0.04)",borderBottom:`1px solid ${C.cardBorder}`}}>
               <span />
               <span style={{fontSize:13,fontWeight:800,color:C.green,textAlign:"center"}}>Vanquish</span>
@@ -405,7 +409,7 @@ export default function LandingPage() {
       </section>
 
       {/* ═══════════ MARCH COMPETITION — Video Background ═══════════ */}
-      <section id="competition" style={{padding:"120px 32px",position:"relative",overflow:"hidden",borderTop:`1px solid ${C.cardBorder}`}}>
+      <section id="competition" className="vq-section" style={{padding:"64px 32px",position:"relative",overflow:"hidden",borderTop:`1px solid ${C.cardBorder}`}}>
         <video autoPlay muted loop playsInline style={{position:"absolute",inset:0,width:"100%",height:"100%",objectFit:"cover",zIndex:0}} src="https://github.com/nourtrades/vanquish/releases/download/v1.0/icantchillyet_Realistic_cinematic_3840__2160_image_trading_co_8d96d1a8-3c6f-4874-bf78-c7f737bd21e2_1.mp4" />
         <div style={{position:"absolute",inset:0,background:"rgba(0,0,0,0.65)",zIndex:0}} />
 
@@ -416,10 +420,10 @@ export default function LandingPage() {
           </div>
 
           <h2 style={{...h2s,textAlign:"center"}}>March Payout<br/>Competition</h2>
-          <p style={{fontSize:17,color:C.textSoft,marginTop:16,marginBottom:40,lineHeight:1.7}}>$10,000+ in total prizes. Highest payouts this month win.</p>
+          <p style={{fontSize:17,color:C.textSoft,marginTop:16,marginBottom:24,lineHeight:1.7}}>$10,000+ in total prizes. Highest payouts this month win.</p>
 
           {/* Prize tiers */}
-          <div style={{display:"flex",flexDirection:"column",gap:4,maxWidth:420,margin:"0 auto 40px"}}>
+          <div style={{display:"flex",flexDirection:"column",gap:4,maxWidth:420,margin:"0 auto 24px"}}>
             {[
               {p:"1st",v:"$5,000",hl:true},
               {p:"2nd",v:"$2,500"},
@@ -434,7 +438,7 @@ export default function LandingPage() {
             ))}
           </div>
 
-          <div style={{marginBottom:40}}>
+          <div style={{marginBottom:24}}>
             <div style={{fontSize:11,fontWeight:700,letterSpacing:3,color:C.textMuted,marginBottom:14}}>ENDS IN</div>
             <Countdown />
           </div>
@@ -498,7 +502,9 @@ export default function LandingPage() {
                   <span key={h} style={{fontSize:11,fontWeight:700,letterSpacing:2,color:C.green,textAlign:h==="PAYOUT"?"right":"left"}}>{h}</span>
                 ))}
               </div>
-              {leaderboard && leaderboard.traders ? leaderboard.traders.map((t,i) => {
+              {!leaderboard ? (
+                <div style={{padding:40,textAlign:"center",color:"rgba(255,255,255,0.5)",fontSize:14}}>Loading leaderboard...</div>
+              ) : leaderboard.traders && leaderboard.traders.length > 0 ? leaderboard.traders.map((t,i) => {
                 const isTop3 = i < 3;
                 return (
                   <div key={t.name} style={{display:"grid",gridTemplateColumns:"60px 1fr 120px",padding:"14px 24px",borderBottom:`1px solid ${C.cardBorder}`,background:isTop3?"rgba(0,200,83,0.04)":"transparent"}}>
@@ -508,7 +514,11 @@ export default function LandingPage() {
                   </div>
                 );
               }) : (
-                <div style={{padding:40,textAlign:"center",color:"rgba(255,255,255,0.5)",fontSize:14}}>Loading leaderboard...</div>
+                <div style={{padding:"36px 24px",textAlign:"center"}}>
+                  <div style={{fontSize:28,marginBottom:12}}>&#127942;</div>
+                  <div style={{fontSize:15,fontWeight:600,color:"#fff",marginBottom:6}}>No submissions yet</div>
+                  <div style={{fontSize:13,color:"rgba(255,255,255,0.45)",lineHeight:1.6}}>Be the first to submit your payout and claim the top spot!</div>
+                </div>
               )}
             </div>
           )}
@@ -516,13 +526,13 @@ export default function LandingPage() {
       </section>
 
       {/* ═══════════ FAQ — Subtle noise texture ═══════════ */}
-      <section id="faq" style={{padding:"120px 32px",position:"relative",overflow:"hidden",borderTop:`1px solid ${C.cardBorder}`}}>
+      <section id="faq" className="vq-section" style={{padding:"64px 32px",position:"relative",overflow:"hidden",borderTop:`1px solid ${C.cardBorder}`}}>
         <div className="noise-overlay" style={{opacity:0.02}} />
         <div className="glow-orb" style={{width:400,height:400,background:"radial-gradient(circle,rgba(0,200,83,0.05) 0%,transparent 60%)",top:"50%",right:"-10%",animationDelay:"5s"}} />
 
         <div style={{...S,maxWidth:700,position:"relative",zIndex:1}}>
           <p style={label}>FAQ</p>
-          <h2 style={{...h2s,marginBottom:48}}>Frequently asked<br/>questions</h2>
+          <h2 style={{...h2s,marginBottom:28}}>Frequently asked<br/>questions</h2>
           <FAQ q="What is Vanquish Trader?" a="Vanquish Trader is the first regulated options prop firm. They provide funded accounts for traders to trade stocks and options with up to $150K in capital — without risking your own money. You keep 100% of the profits." />
           <FAQ q="How does the evaluation work?" a="Complete just 10 trades with no time limit. Once you pass, you get your funded account and can start trading immediately. No complicated rules." />
           <FAQ q="What does code NOUR get me?" a="Code NOUR gives you a special discount on all Vanquish Trader packages. It's an exclusive deal through the Nour Trades partnership." />
@@ -532,7 +542,7 @@ export default function LandingPage() {
       </section>
 
       {/* ═══════════ FINAL CTA — Video backdrop ═══════════ */}
-      <section style={{padding:"140px 32px",textAlign:"center",position:"relative",overflow:"hidden",borderTop:`1px solid ${C.cardBorder}`}}>
+      <section className="vq-section" style={{padding:"72px 32px",textAlign:"center",position:"relative",overflow:"hidden",borderTop:`1px solid ${C.cardBorder}`}}>
         <video autoPlay muted loop playsInline style={{position:"absolute",inset:0,width:"100%",height:"100%",objectFit:"cover",zIndex:0}} src="https://github.com/nourtrades/vanquish/releases/download/v1.0/icantchillyet_Realistic_cinematic_3840__2160_image_stock_char_f152a47b-3bf9-46a4-99a3-138049886f70_1.1.mp4" />
         <div style={{position:"absolute",inset:0,background:"rgba(0,0,0,0.65)",zIndex:0}} />
         <div className="noise-overlay" />
@@ -540,7 +550,7 @@ export default function LandingPage() {
         <div style={{...S,position:"relative",zIndex:1}}>
           <h2 style={{...h2s,fontSize:"clamp(32px,5vw,56px)",maxWidth:800,margin:"0 auto"}}>Start trading with funded capital</h2>
           <p style={{...sub,margin:"24px auto 0",textAlign:"center",maxWidth:480}}>Use code NOUR for a discount on all accounts. No risk to your own money.</p>
-          <div style={{marginTop:48}}>
+          <div style={{marginTop:28}}>
             <a href={LINK} target="_blank" rel="noopener noreferrer" style={{...btn,fontSize:18,padding:"18px 48px",boxShadow:"0 0 40px rgba(0,200,83,0.25)"}}>Get Funded</a>
           </div>
         </div>
@@ -571,7 +581,7 @@ export default function LandingPage() {
               </div>
             </div>
           </div>
-          <div style={{borderTop:`1px solid ${C.cardBorder}`,marginTop:40,paddingTop:24,fontSize:12,color:"#FFFFFF"}}>© {new Date().getFullYear()} StockHours LLC. All rights reserved.</div>
+          <div style={{borderTop:`1px solid ${C.cardBorder}`,marginTop:28,paddingTop:20,fontSize:12,color:"#FFFFFF"}}>© {new Date().getFullYear()} StockHours LLC. All rights reserved.</div>
         </div>
       </footer>
     </div>
