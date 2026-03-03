@@ -113,6 +113,8 @@ const css = `
 
   /* ══ Mobile Responsive ══ */
   @media(max-width:768px){
+    .vq-bg-video{display:none!important}
+    .vq-video-section{background:linear-gradient(135deg,#000 0%,#061a0e 40%,#0a2614 60%,#000 100%)!important}
     .nav-links .nav-link-item{display:none!important}
     .marquee-track{gap:16px}
     .comparison-grid{grid-template-columns:1fr 72px 72px!important}
@@ -354,8 +356,8 @@ export default function LandingPage() {
       </section>
 
       {/* ═══════════ WHY VANQUISH — Video Background ═══════════ */}
-      <section className="vq-section" style={{padding:"56px 32px",position:"relative",overflow:"hidden",borderTop:`1px solid ${C.cardBorder}`}}>
-        <video autoPlay muted loop playsInline style={{position:"absolute",inset:0,width:"100%",height:"100%",objectFit:"cover",zIndex:0}} src="https://github.com/nourtrades/vanquish/releases/download/v1.0/icantchillyet_Realistic_cinematic_3840__2160_image_stock_trad_7539b1dc-f2b7-4188-a42c-e698d7cb4b7c_1.mp4" />
+      <section className="vq-section vq-video-section" style={{padding:"56px 32px",position:"relative",overflow:"hidden",borderTop:`1px solid ${C.cardBorder}`}}>
+        <video className="vq-bg-video" autoPlay muted loop playsInline style={{position:"absolute",inset:0,width:"100%",height:"100%",objectFit:"cover",zIndex:0}} src="https://github.com/nourtrades/vanquish/releases/download/v1.0/icantchillyet_Realistic_cinematic_3840__2160_image_stock_trad_7539b1dc-f2b7-4188-a42c-e698d7cb4b7c_1.mp4" />
         <div style={{position:"absolute",inset:0,background:"rgba(0,0,0,0.65)",zIndex:0}} />
 
         <div style={{...S,position:"relative",zIndex:1}}>
@@ -409,8 +411,8 @@ export default function LandingPage() {
       </section>
 
       {/* ═══════════ MARCH COMPETITION — Video Background ═══════════ */}
-      <section id="competition" className="vq-section" style={{padding:"64px 32px",position:"relative",overflow:"hidden",borderTop:`1px solid ${C.cardBorder}`}}>
-        <video autoPlay muted loop playsInline style={{position:"absolute",inset:0,width:"100%",height:"100%",objectFit:"cover",zIndex:0}} src="https://github.com/nourtrades/vanquish/releases/download/v1.0/icantchillyet_Realistic_cinematic_3840__2160_image_trading_co_8d96d1a8-3c6f-4874-bf78-c7f737bd21e2_1.mp4" />
+      <section id="competition" className="vq-section vq-video-section" style={{padding:"64px 32px",position:"relative",overflow:"hidden",borderTop:`1px solid ${C.cardBorder}`}}>
+        <video className="vq-bg-video" autoPlay muted loop playsInline style={{position:"absolute",inset:0,width:"100%",height:"100%",objectFit:"cover",zIndex:0}} src="https://github.com/nourtrades/vanquish/releases/download/v1.0/icantchillyet_Realistic_cinematic_3840__2160_image_trading_co_8d96d1a8-3c6f-4874-bf78-c7f737bd21e2_1.mp4" />
         <div style={{position:"absolute",inset:0,background:"rgba(0,0,0,0.65)",zIndex:0}} />
 
         <div style={{...S,maxWidth:720,textAlign:"center",position:"relative",zIndex:1}}>
@@ -542,8 +544,8 @@ export default function LandingPage() {
       </section>
 
       {/* ═══════════ FINAL CTA — Video backdrop ═══════════ */}
-      <section className="vq-section" style={{padding:"72px 32px",textAlign:"center",position:"relative",overflow:"hidden",borderTop:`1px solid ${C.cardBorder}`}}>
-        <video autoPlay muted loop playsInline style={{position:"absolute",inset:0,width:"100%",height:"100%",objectFit:"cover",zIndex:0}} src="https://github.com/nourtrades/vanquish/releases/download/v1.0/icantchillyet_Realistic_cinematic_3840__2160_image_stock_char_f152a47b-3bf9-46a4-99a3-138049886f70_1.1.mp4" />
+      <section className="vq-section vq-video-section" style={{padding:"72px 32px",textAlign:"center",position:"relative",overflow:"hidden",borderTop:`1px solid ${C.cardBorder}`}}>
+        <video className="vq-bg-video" autoPlay muted loop playsInline style={{position:"absolute",inset:0,width:"100%",height:"100%",objectFit:"cover",zIndex:0}} src="https://github.com/nourtrades/vanquish/releases/download/v1.0/icantchillyet_Realistic_cinematic_3840__2160_image_stock_char_f152a47b-3bf9-46a4-99a3-138049886f70_1.1.mp4" />
         <div style={{position:"absolute",inset:0,background:"rgba(0,0,0,0.65)",zIndex:0}} />
         <div className="noise-overlay" />
 
