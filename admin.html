@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Admin — Vanquish Leaderboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:#000; color:#fff; font-family:'Inter',sans-serif; min-height:100vh; padding:40px 24px; }
+  .wrap { max-width:900px; margin:0 auto; }
+  h1 { font-family:'Bebas Neue',sans-serif; font-size:48px; letter-spacing:2px; margin-bottom:8px; }
+  .sub { color:rgba(255,255,255,0.5); font-size:14px; margin-bottom:40px; }
+  .tabs { display:flex; gap:4px; margin-bottom:32px; }
+  .tab { padding:10px 24px; background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08); border-radius:8px; color:rgba(255,255,255,0.5); font-size:13px; font-weight:700; cursor:pointer; letter-spacing:1px; transition:all .2s; font-family:'Inter',sans-serif; }
+  .tab.active { background:rgba(0,200,83,0.1); border-color:rgba(0,200,83,0.3); color:#00C853; }
+  .tab .count { background:rgba(255,255,255,0.1); padding:2px 8px; border-radius:100px; margin-left:8px; font-size:11px; }
+  .tab.active .count { background:rgba(0,200,83,0.2); }
+  .empty { text-align:center; padding:60px 20px; color:rgba(255,255,255,0.3); font-size:15px; }
+  .card { background:#0a0a0a; border:1px solid rgba(255,255,255,0.08); border-radius:14px; padding:20px 24px; margin-bottom:12px; display:flex; align-items:center; justify-content:space-between; gap:20px; flex-wrap:wrap; }
+  .info { flex:1; min-width:200px; }
+  .name { font-size:16px; font-weight:700; margin-bottom:4px; }
+  .meta { font-size:13px; color:rgba(255,255,255,0.4); }
+  .meta span { margin-right:16px; }
+  .amount { font-size:22px; font-weight:800; color:#00C853; white-space:nowrap; min-width:100px; text-align:right; }
+  .actions { display:flex; gap:8px; }
+  .btn { padding:10px 20px; border-radius:100px; font-size:13px; font-weight:700; cursor:pointer; border:none; font-family:'Inter',sans-serif; transition:opacity .2s; }
+  .btn:hover { opacity:0.85; }
+  .btn:disabled { opacity:0.4; cursor:not-allowed; }
+  .btn-approve { background:#00C853; color:#000; }
+  .btn-deny { background:rgba(255,50,50,0.15); color:#ff5555; border:1px solid rgba(255,50,50,0.3); }
+  .status-badge { padding:6px 14px; border-radius:100px; font-size:12px; font-weight:700; letter-spacing:1px; }
+  .status-approved { background:rgba(0,200,83,0.1); color:#00C853; }
+  .status-denied { background:rgba(255,50,50,0.1); color:#ff5555; }
+  .proof-link { color:#00C853; font-size:12px; text-decoration:none; }
+  .proof-link:hover { text-decoration:underline; }
+  .refresh { padding:8px 20px; background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.1); border-radius:8px; color:#fff; font-size:12px; font-weight:600; cursor:pointer; font-family:'Inter',sans-serif; float:right; }
+  .refresh:hover { border-color:rgba(255,255,255,0.3); }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <button class="refresh" onclick="loadData()">Refresh</button>
+    <h1>Admin Panel</h1>
+    <p class="sub">Review and manage payout submissions for the March competition.</p>
+
+    <div class="tabs">
+      <button class="tab active" data-filter="pending" onclick="setFilter('pending')">Pending <span class="count" id="count-pending">0</span></button>
+      <button class="tab" data-filter="approved" onclick="setFilter('approved')">Approved <span class="count" id="count-approved">0</span></button>
+      <button class="tab" data-filter="denied" onclick="setFilter('denied')">Denied <span class="count" id="count-denied">0</span></button>
+    </div>
+
+    <div id="list"></div>
+  </div>
+
+  <script>
+    let allSubs = [];
+    let currentFilter = "pending";
+
+    function setFilter(f) {
+      currentFilter = f;
+      document.querySelectorAll(".tab").forEach(t => t.classList.toggle("active", t.dataset.filter === f));
+      render();
+    }
+
+    function render() {
+      const filtered = allSubs.filter(s => s.status === currentFilter);
+      const list = document.getElementById("list");
+
+      if (filtered.length === 0) {
+        list.innerHTML = '<div class="empty">No ' + currentFilter + ' submissions.</div>';
+        return;
+      }
+
+      list.innerHTML = filtered.map(s => {
+        const date = new Date(s.submittedAt).toLocaleDateString("en-US", { month:"short", day:"numeric", hour:"2-digit", minute:"2-digit" });
+        const proof = s.proofUrl ? ' &middot; <a href="' + escapeHtml(s.proofUrl) + '" target="_blank" class="proof-link">View Proof</a>' : '';
+        let actions = '';
+
+        if (s.status === "pending") {
+          actions = '<div class="actions">'
+            + '<button class="btn btn-approve" onclick="handleAction(\'' + s.id + '\',\'approve\')">Approve</button>'
+            + '<button class="btn btn-deny" onclick="handleAction(\'' + s.id + '\',\'deny\')">Deny</button>'
+            + '</div>';
+        } else {
+          const cls = s.status === "approved" ? "status-approved" : "status-denied";
+          actions = '<span class="status-badge ' + cls + '">' + s.status.toUpperCase() + '</span>';
+        }
+
+        return '<div class="card">'
+          + '<div class="info">'
+          + '<div class="name">' + escapeHtml(s.name) + '</div>'
+          + '<div class="meta"><span>' + date + '</span>' + proof + '</div>'
+          + '</div>'
+          + '<div class="amount">$' + s.payout.toLocaleString() + '</div>'
+          + actions
+          + '</div>';
+      }).join("");
+    }
+
+    function escapeHtml(str) {
+      const d = document.createElement("div");
+      d.textContent = str;
+      return d.innerHTML;
+    }
+
+    async function handleAction(id, action) {
+      const btns = event.target.closest(".actions");
+      if (btns) btns.querySelectorAll(".btn").forEach(b => b.disabled = true);
+
+      try {
+        const res = await fetch("/api/submissions/" + id + "/" + action, { method: "POST" });
+        const data = await res.json();
+        if (data.success) {
+          await loadData();
+        } else {
+          alert(data.error || "Action failed");
+        }
+      } catch (err) {
+        alert("Network error");
+      }
+    }
+
+    async function loadData() {
+      try {
+        const res = await fetch("/api/submissions");
+        const data = await res.json();
+        allSubs = data.submissions || [];
+
+        document.getElementById("count-pending").textContent = allSubs.filter(s => s.status === "pending").length;
+        document.getElementById("count-approved").textContent = allSubs.filter(s => s.status === "approved").length;
+        document.getElementById("count-denied").textContent = allSubs.filter(s => s.status === "denied").length;
+
+        render();
+      } catch (err) {
+        document.getElementById("list").innerHTML = '<div class="empty">Failed to load submissions.</div>';
+      }
+    }
+
+    loadData();
+  </script>
+</body>
+</html>

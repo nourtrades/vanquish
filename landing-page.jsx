@@ -4,17 +4,17 @@ const VQ_LOGO = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtW
 
 
 const PAYOUT_IMAGES = [
-  "https://i.imgur.com/VLXbOoV.png",
-  "https://i.imgur.com/yZxQbXm.png",
-  "https://i.imgur.com/JLj6FG7.png",
-  "https://i.imgur.com/KYkRH7Y.png",
-  "https://i.imgur.com/AKXeQ69.png",
+  "https://github.com/nourtrades/vanquish/releases/download/v1.0/payout-1.png",
+  "https://github.com/nourtrades/vanquish/releases/download/v1.0/payout-2.png",
+  "https://github.com/nourtrades/vanquish/releases/download/v1.0/payout-3.png",
+  "https://github.com/nourtrades/vanquish/releases/download/v1.0/payout-4.png",
+  "https://github.com/nourtrades/vanquish/releases/download/v1.0/payout-5.png",
 ];
 
 const C = {
   green: "#00C853", greenDark: "#00A844", bg: "#000",
   card: "#0a0a0a", cardBorder: "rgba(255,255,255,0.08)",
-  textSoft: "rgba(255,255,255,0.6)", textMuted: "rgba(255,255,255,0.35)",
+  textSoft: "#FFFFFF", textMuted: "#FFFFFF",
   trustpilot: "#00b67a",
 };
 const LINK = "https://www.vanquishtrader.co/nour/";
@@ -162,10 +162,24 @@ function FAQ({q,a}) {
 
 export default function LandingPage() {
   const [scrollY, setScrollY] = useState(0);
+  const [leaderboard, setLeaderboard] = useState(null);
+  const [showBoard, setShowBoard] = useState(false);
+  const [showSubmit, setShowSubmit] = useState(false);
+  const [submitForm, setSubmitForm] = useState({ name: "", payout: "", screenshot: null });
+  const [submitStatus, setSubmitStatus] = useState(null); // { type: "success"|"error", message }
+  const [submitting, setSubmitting] = useState(false);
+
   useEffect(() => {
     const h = () => setScrollY(window.scrollY);
     window.addEventListener("scroll", h, {passive:true});
     return () => window.removeEventListener("scroll", h);
+  }, []);
+
+  useEffect(() => {
+    fetch("/api/leaderboard")
+      .then(r => r.json())
+      .then(d => setLeaderboard(d))
+      .catch(() => {});
   }, []);
 
   const S = {maxWidth:1120,margin:"0 auto",padding:"0 32px"};
@@ -190,8 +204,8 @@ export default function LandingPage() {
             <img src={VQ_LOGO} alt="V" style={{width:48,height:48}} />
           </div>
           <div style={{display:"flex",alignItems:"center",gap:28}}>
-            {["How It Works","Payouts","Compare","FAQ"].map(t => (
-              <a key={t} href={`#${t.toLowerCase().replace(/\s+/g,"-")}`} style={{color:C.textSoft,textDecoration:"none",fontSize:14,fontWeight:500}}>{t}</a>
+            {["Payouts","How It Works","Compare","FAQ"].map(t => (
+              <a key={t} href={`#${t.toLowerCase().replace(/\s+/g,"-")}`} style={{color:"#FFFFFF",textDecoration:"none",fontSize:14,fontWeight:500}}>{t}</a>
             ))}
             <a href={LINK} target="_blank" rel="noopener noreferrer" style={{...btn,padding:"10px 24px",fontSize:14}}>Get Funded</a>
           </div>
@@ -201,7 +215,7 @@ export default function LandingPage() {
       {/* ═══════════ HERO — Globe peeks from bottom ═══════════ */}
       <section style={{padding:"140px 32px 120px",position:"relative",overflow:"hidden"}}>
         {/* Globe — positioned at bottom center, peeking up */}
-        <div style={{position:"absolute",bottom:"-35%",left:"50%",transform:"translateX(-50%)",width:1000,height:1000,pointerEvents:"none",zIndex:0}}>
+        <div style={{position:"absolute",bottom:"-35%",left:"50%",transform:"translateX(-50%) scale(1.5)",width:1000,height:1000,pointerEvents:"none",zIndex:0}}>
           <div className="rotate-bg-spin" style={{backgroundImage:`url(${ROTATE_BG})`,borderRadius:"50%"}} />
         </div>
         {/* Dark gradient overlay — keeps text readable */}
@@ -210,9 +224,8 @@ export default function LandingPage() {
 
         <div style={{...S,position:"relative",zIndex:1,textAlign:"center"}}>
           <div style={{animation:"fadeUp .8s ease both"}}>
-            <p style={{...label,marginBottom:24}}>THE FIRST REGULATED OPTIONS PROP FIRM</p>
-            <h1 style={{fontFamily:"'Bebas Neue',sans-serif",fontSize:"clamp(52px,10vw,96px)",letterSpacing:3,lineHeight:.95,margin:"0 auto",maxWidth:900}}>
-              Trade stocks & options with funded capital
+            <h1 style={{fontFamily:"'Bebas Neue',sans-serif",fontSize:"clamp(52px,10vw,96px)",letterSpacing:3,lineHeight:.95,margin:"0 auto",maxWidth:900,color:"#fff"}}>
+              THE FIRST REGULATED OPTIONS PROP FIRM
             </h1>
             <p style={{...sub,margin:"24px auto 0",maxWidth:560,textAlign:"center"}}>
               Get up to $150K from Vanquish Trader. Keep 100% of your profits. Risk nothing.
@@ -264,37 +277,11 @@ export default function LandingPage() {
       </section>
 
       {/* ═══════════ VIDEO ═══════════ */}
-      <section id="video" style={{padding:"0 32px 120px",position:"relative"}}>
+      <section id="video" style={{padding:"80px 32px 120px",position:"relative"}}>
         <div style={{...S,maxWidth:880}}>
+          <h2 style={{fontFamily:"'Bebas Neue',sans-serif",fontSize:"clamp(28px,4vw,48px)",letterSpacing:1,lineHeight:1.1,color:"#fff",textAlign:"center",marginBottom:48}}>WHY YOU NEED TO CHOOSE VANQUISH TRADER</h2>
           <div style={{position:"relative",paddingBottom:"56.25%",borderRadius:16,overflow:"hidden",border:"1px solid rgba(0,200,83,0.15)",boxShadow:"0 0 60px rgba(0,200,83,0.08), 0 40px 80px rgba(0,0,0,0.5)"}}>
             <iframe src="https://www.youtube.com/embed/jgsFStjJOS4" title="Vanquish Trader" style={{position:"absolute",inset:0,width:"100%",height:"100%",border:"none"}} allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen />
-          </div>
-        </div>
-      </section>
-
-      {/* ═══════════ HOW IT WORKS — Animated Grid + Hex Pattern ═══════════ */}
-      <section id="how-it-works" style={{padding:"120px 32px",position:"relative",overflow:"hidden",borderTop:`1px solid ${C.cardBorder}`}}>
-        <div className="futuristic-grid" />
-        <div className="glow-orb" style={{width:400,height:400,background:"radial-gradient(circle,rgba(0,200,83,0.08) 0%,transparent 60%)",top:"30%",right:"-5%",animationDelay:"2s"}} />
-
-        <div style={{...S,position:"relative",zIndex:1}}>
-          <p style={label}>How It Works</p>
-          <h2 style={h2s}>Get funded in<br/>3 simple steps</h2>
-          <p style={sub}>No complicated rules. No hidden requirements. Just trade.</p>
-
-          <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(300px,1fr))",gap:1,marginTop:72,background:C.cardBorder,borderRadius:20,overflow:"hidden"}}>
-            {[
-              {n:"01",t:"Choose your account",d:"Pick your funded account size — up to $150K. Use code NOUR for a special discount."},
-              {n:"02",t:"Complete 10 trades",d:"Pass a simple evaluation with just 10 trades. No time limit. Trade stocks or options."},
-              {n:"03",t:"Keep your profits",d:"Once funded, you keep 100% of your profits. Request instant payouts anytime."},
-            ].map((s,i) => (
-              <div key={i} style={{background:"rgba(10,10,10,0.9)",padding:"48px 40px",position:"relative",overflow:"hidden"}}>
-                <div style={{position:"absolute",top:-30,right:-30,width:120,height:120,borderRadius:"50%",background:"radial-gradient(circle,rgba(0,200,83,0.06) 0%,transparent 70%)",pointerEvents:"none"}} />
-                <span style={{fontFamily:"'Bebas Neue',sans-serif",fontSize:48,color:"rgba(0,200,83,0.08)",lineHeight:1}}>{s.n}</span>
-                <h3 style={{fontSize:22,fontWeight:700,color:"#fff",margin:"20px 0 12px"}}>{s.t}</h3>
-                <p style={{fontSize:15,color:C.textSoft,lineHeight:1.7}}>{s.d}</p>
-              </div>
-            ))}
           </div>
         </div>
       </section>
@@ -319,11 +306,37 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* ═══════════ WHY VANQUISH — Static Grid + Blue/Green Orbs ═══════════ */}
+      {/* ═══════════ HOW IT WORKS — Animated Grid + Hex Pattern ═══════════ */}
+      <section id="how-it-works" style={{padding:"120px 32px",position:"relative",overflow:"hidden",borderTop:`1px solid ${C.cardBorder}`}}>
+        <div className="futuristic-grid" />
+        <div className="glow-orb" style={{width:400,height:400,background:"radial-gradient(circle,rgba(0,200,83,0.08) 0%,transparent 60%)",top:"30%",right:"-5%",animationDelay:"2s"}} />
+
+        <div style={{...S,position:"relative",zIndex:1}}>
+          <p style={label}>How It Works</p>
+          <h2 style={h2s}>Get funded in<br/>3 simple steps</h2>
+          <p style={sub}>No complicated rules. No hidden requirements. Just trade.</p>
+
+          <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(300px,1fr))",gap:1,marginTop:72,background:C.cardBorder,borderRadius:20,overflow:"hidden"}}>
+            {[
+              {n:"01",t:"Choose your account",d:"Pick your funded account size — up to $150K. Use code NOUR for a special discount."},
+              {n:"02",t:"Complete 10 trades",d:"Pass a simple evaluation with just 10 trades. No time limit. Trade stocks or options."},
+              {n:"03",t:"Keep your profits",d:"Once funded, you keep 100% of your profits. Request instant payouts anytime."},
+            ].map((s,i) => (
+              <div key={i} style={{background:"rgba(10,10,10,0.9)",padding:"48px 40px",position:"relative",overflow:"hidden"}}>
+                <div style={{position:"absolute",top:-30,right:-30,width:120,height:120,borderRadius:"50%",background:"radial-gradient(circle,rgba(0,200,83,0.06) 0%,transparent 70%)",pointerEvents:"none"}} />
+                <span style={{fontFamily:"'Bebas Neue',sans-serif",fontSize:48,color:"#00C853",lineHeight:1}}>{s.n}</span>
+                <h3 style={{fontSize:22,fontWeight:700,color:"#fff",margin:"20px 0 12px"}}>{s.t}</h3>
+                <p style={{fontSize:15,color:C.textSoft,lineHeight:1.7}}>{s.d}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ═══════════ WHY VANQUISH — Video Background ═══════════ */}
       <section style={{padding:"100px 32px",position:"relative",overflow:"hidden",borderTop:`1px solid ${C.cardBorder}`}}>
-        <div className="futuristic-grid-static" />
-        <div className="glow-orb" style={{width:350,height:350,background:"radial-gradient(circle,rgba(0,100,255,0.06) 0%,transparent 60%)",top:"20%",left:"10%",animationDelay:"4s"}} />
-        <div className="glow-orb" style={{width:400,height:400,background:"radial-gradient(circle,rgba(0,200,83,0.06) 0%,transparent 60%)",bottom:"10%",right:"5%",animationDelay:"1s"}} />
+        <video autoPlay muted loop playsInline style={{position:"absolute",inset:0,width:"100%",height:"100%",objectFit:"cover",zIndex:0}} src="https://github.com/nourtrades/vanquish/releases/download/v1.0/icantchillyet_Realistic_cinematic_3840__2160_image_stock_trad_7539b1dc-f2b7-4188-a42c-e698d7cb4b7c_1.mp4" />
+        <div style={{position:"absolute",inset:0,background:"rgba(0,0,0,0.65)",zIndex:0}} />
 
         <div style={{...S,position:"relative",zIndex:1}}>
           <div style={{textAlign:"center",marginBottom:64}}>
@@ -375,16 +388,10 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* ═══════════ MARCH COMPETITION — Radial Burst + Planet BG ═══════════ */}
+      {/* ═══════════ MARCH COMPETITION — Video Background ═══════════ */}
       <section id="competition" style={{padding:"120px 32px",position:"relative",overflow:"hidden",borderTop:`1px solid ${C.cardBorder}`}}>
-        {/* Rotating 3D Logo — color-dodge */}
-        <div className="rotate-bg-wrap" style={{width:650,height:650}}>
-          <div className="rotate-bg-spin" style={{backgroundImage:`url(${ROTATE_BG})`,opacity:0.5}} />
-        </div>
-        <div className="hex-pattern" style={{opacity:0.04}} />
-        <div className="glow-orb" style={{width:700,height:700,background:"radial-gradient(circle,rgba(0,200,83,0.1) 0%,rgba(0,200,83,0.02) 40%,transparent 60%)",top:"50%",left:"50%"}} />
-        <div style={{position:"absolute",top:"50%",left:"50%",transform:"translate(-50%,-50%)",width:750,height:750,borderRadius:"50%",border:"1px solid rgba(0,200,83,0.06)",pointerEvents:"none"}} />
-        <div style={{position:"absolute",top:"50%",left:"50%",transform:"translate(-50%,-50%)",width:700,height:700,borderRadius:"50%",border:"1px solid rgba(0,200,83,0.03)",pointerEvents:"none"}} />
+        <video autoPlay muted loop playsInline style={{position:"absolute",inset:0,width:"100%",height:"100%",objectFit:"cover",zIndex:0}} src="https://github.com/nourtrades/vanquish/releases/download/v1.0/icantchillyet_Realistic_cinematic_3840__2160_image_trading_co_8d96d1a8-3c6f-4874-bf78-c7f737bd21e2_1.mp4" />
+        <div style={{position:"absolute",inset:0,background:"rgba(0,0,0,0.65)",zIndex:0}} />
 
         <div style={{...S,maxWidth:720,textAlign:"center",position:"relative",zIndex:1}}>
           <div style={{display:"inline-flex",alignItems:"center",gap:8,background:"rgba(0,200,83,0.1)",borderRadius:100,padding:"6px 18px",marginBottom:24}}>
@@ -395,6 +402,7 @@ export default function LandingPage() {
           <h2 style={{...h2s,textAlign:"center"}}>March Payout<br/>Competition</h2>
           <p style={{fontSize:17,color:C.textSoft,marginTop:16,marginBottom:40,lineHeight:1.7}}>$10,000+ in total prizes. Highest payouts this month win.</p>
 
+          {/* Prize tiers */}
           <div style={{display:"flex",flexDirection:"column",gap:4,maxWidth:420,margin:"0 auto 40px"}}>
             {[
               {p:"1st",v:"$5,000",hl:true},
@@ -405,7 +413,7 @@ export default function LandingPage() {
             ].map((r,i) => (
               <div key={i} style={{display:"flex",justifyContent:"space-between",padding:"14px 24px",borderRadius:10,background:r.hl?"rgba(0,200,83,0.08)":"rgba(255,255,255,0.03)",border:r.hl?"1px solid rgba(0,200,83,0.25)":`1px solid ${C.cardBorder}`,backdropFilter:"blur(4px)"}}>
                 <span style={{fontSize:14,fontWeight:700,color:r.hl?C.green:C.textSoft}}>{r.p}</span>
-                <span style={{fontSize:15,fontWeight:800,color:r.hl?C.green:"rgba(255,255,255,0.8)"}}>{r.v}</span>
+                <span style={{fontSize:15,fontWeight:800,color:r.hl?C.green:"#fff"}}>{r.v}</span>
               </div>
             ))}
           </div>
@@ -414,7 +422,80 @@ export default function LandingPage() {
             <div style={{fontSize:11,fontWeight:700,letterSpacing:3,color:C.textMuted,marginBottom:14}}>ENDS IN</div>
             <Countdown />
           </div>
-          <a href="#" style={btn}>View Leaderboard</a>
+
+          <div style={{display:"flex",gap:12,justifyContent:"center",flexWrap:"wrap"}}>
+            <button onClick={() => setShowBoard(!showBoard)} style={btn}>{showBoard ? "Hide Leaderboard" : "View Leaderboard"}</button>
+            <button onClick={() => { setShowSubmit(!showSubmit); setSubmitStatus(null); }} style={{...btn,background:"transparent",color:"#fff",border:"1px solid rgba(255,255,255,0.2)"}}>{showSubmit ? "Close Form" : "Submit Your Payout"}</button>
+          </div>
+
+          {/* ── Submit Payout Form ── */}
+          {showSubmit && (
+            <div style={{marginTop:48,maxWidth:480,marginLeft:"auto",marginRight:"auto",background:"rgba(0,0,0,0.6)",border:`1px solid ${C.cardBorder}`,borderRadius:16,overflow:"hidden",backdropFilter:"blur(12px)",padding:36}}>
+              <h3 style={{fontFamily:"'Bebas Neue',sans-serif",fontSize:28,letterSpacing:2,marginBottom:8,color:"#fff"}}>Submit Your Payout</h3>
+              <p style={{fontSize:14,color:"rgba(255,255,255,0.5)",marginBottom:28,lineHeight:1.6}}>Submit your payout details for the March competition. All submissions are reviewed before appearing on the leaderboard.</p>
+              <form onSubmit={async (e) => {
+                e.preventDefault();
+                setSubmitStatus(null);
+                setSubmitting(true);
+                try {
+                  const fd = new FormData();
+                  fd.append("name", submitForm.name.trim());
+                  fd.append("payout", submitForm.payout);
+                  if (submitForm.screenshot) fd.append("screenshot", submitForm.screenshot);
+                  const res = await fetch("/api/submissions", { method: "POST", body: fd });
+                  const data = await res.json();
+                  if (data.success) {
+                    setSubmitStatus({ type: "success", message: "Payout submitted! It will appear on the leaderboard once approved." });
+                    setSubmitForm({ name: "", payout: "", screenshot: null });
+                    e.target.reset();
+                  } else {
+                    throw new Error(data.error || "Submission failed");
+                  }
+                } catch (err) {
+                  setSubmitStatus({ type: "error", message: err.message || "Something went wrong. Please try again." });
+                } finally {
+                  setSubmitting(false);
+                }
+              }}>
+                <label style={{display:"block",fontSize:11,fontWeight:700,letterSpacing:2,color:C.green,marginBottom:8}}>YOUR NAME / ALIAS</label>
+                <input type="text" value={submitForm.name} onChange={e => setSubmitForm({...submitForm, name: e.target.value})} placeholder="e.g. TraderX" required style={{width:"100%",padding:"14px 18px",background:"rgba(255,255,255,0.04)",border:"1px solid rgba(255,255,255,0.1)",borderRadius:10,color:"#fff",fontSize:15,fontFamily:"Inter,sans-serif",outline:"none",marginBottom:20}} />
+
+                <label style={{display:"block",fontSize:11,fontWeight:700,letterSpacing:2,color:C.green,marginBottom:8}}>PAYOUT AMOUNT ($)</label>
+                <input type="number" value={submitForm.payout} onChange={e => setSubmitForm({...submitForm, payout: e.target.value})} placeholder="e.g. 5000" min="1" step="0.01" required style={{width:"100%",padding:"14px 18px",background:"rgba(255,255,255,0.04)",border:"1px solid rgba(255,255,255,0.1)",borderRadius:10,color:"#fff",fontSize:15,fontFamily:"Inter,sans-serif",outline:"none",marginBottom:20}} />
+
+                <label style={{display:"block",fontSize:11,fontWeight:700,letterSpacing:2,color:C.green,marginBottom:8}}>PAYOUT SCREENSHOT (OPTIONAL)</label>
+                <input type="file" accept="image/png,image/jpeg,image/gif,image/webp" onChange={e => setSubmitForm({...submitForm, screenshot: e.target.files[0] || null})} style={{width:"100%",padding:"14px 18px",background:"rgba(255,255,255,0.04)",border:"1px solid rgba(255,255,255,0.1)",borderRadius:10,color:"#fff",fontSize:14,fontFamily:"Inter,sans-serif",outline:"none",marginBottom:24}} />
+
+                <button type="submit" disabled={submitting} style={{width:"100%",padding:16,background:C.green,border:"none",borderRadius:100,color:"#000",fontSize:16,fontWeight:700,cursor:submitting?"not-allowed":"pointer",fontFamily:"Inter,sans-serif",opacity:submitting?0.5:1,transition:"opacity .2s"}}>{submitting ? "Submitting..." : "Submit Payout"}</button>
+              </form>
+              {submitStatus && (
+                <div style={{marginTop:20,padding:"14px 18px",borderRadius:10,fontSize:14,fontWeight:600,textAlign:"center",background:submitStatus.type==="success"?"rgba(0,200,83,0.1)":"rgba(255,50,50,0.1)",border:submitStatus.type==="success"?"1px solid rgba(0,200,83,0.25)":"1px solid rgba(255,50,50,0.25)",color:submitStatus.type==="success"?C.green:"#ff5555"}}>{submitStatus.message}</div>
+              )}
+            </div>
+          )}
+
+          {/* ── Live Leaderboard Table ── */}
+          {showBoard && (
+            <div style={{marginTop:48,maxWidth:480,marginLeft:"auto",marginRight:"auto",background:"rgba(0,0,0,0.6)",border:`1px solid ${C.cardBorder}`,borderRadius:16,overflow:"hidden",backdropFilter:"blur(12px)"}}>
+              <div style={{display:"grid",gridTemplateColumns:"60px 1fr 120px",padding:"14px 24px",borderBottom:`1px solid ${C.cardBorder}`,background:"rgba(0,200,83,0.06)"}}>
+                {["PLACE","NAME","PAYOUT"].map(h => (
+                  <span key={h} style={{fontSize:11,fontWeight:700,letterSpacing:2,color:C.green,textAlign:h==="PAYOUT"?"right":"left"}}>{h}</span>
+                ))}
+              </div>
+              {leaderboard && leaderboard.traders ? leaderboard.traders.map((t,i) => {
+                const isTop3 = i < 3;
+                return (
+                  <div key={t.name} style={{display:"grid",gridTemplateColumns:"60px 1fr 120px",padding:"14px 24px",borderBottom:`1px solid ${C.cardBorder}`,background:isTop3?"rgba(0,200,83,0.04)":"transparent"}}>
+                    <span style={{fontSize:14,fontWeight:800,color:isTop3?C.green:"#fff"}}>{t.rank}</span>
+                    <span style={{fontSize:14,fontWeight:600,color:"#fff"}}>{t.name}</span>
+                    <span style={{fontSize:14,fontWeight:700,color:isTop3?C.green:"#fff",textAlign:"right"}}>${t.payout.toLocaleString()}</span>
+                  </div>
+                );
+              }) : (
+                <div style={{padding:40,textAlign:"center",color:"rgba(255,255,255,0.5)",fontSize:14}}>Loading leaderboard...</div>
+              )}
+            </div>
+          )}
         </div>
       </section>
 
@@ -434,19 +515,14 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* ═══════════ FINAL CTA — Planet backdrop reprise ═══════════ */}
+      {/* ═══════════ FINAL CTA — Video backdrop ═══════════ */}
       <section style={{padding:"140px 32px",textAlign:"center",position:"relative",overflow:"hidden",borderTop:`1px solid ${C.cardBorder}`}}>
-        {/* Rotating 3D Logo — color-dodge reprise */}
-        <div className="rotate-bg-wrap-center" style={{width:750,height:750}}>
-          <div className="rotate-bg-spin-reverse" style={{backgroundImage:`url(${ROTATE_BG})`,opacity:0.4}} />
-        </div>
-        <div className="perspective-grid" />
-        <div className="glow-orb" style={{width:800,height:800,background:"radial-gradient(circle,rgba(0,200,83,0.1) 0%,transparent 50%)",top:"50%",left:"50%"}} />
-        <div className="scanline-effect" />
+        <video autoPlay muted loop playsInline style={{position:"absolute",inset:0,width:"100%",height:"100%",objectFit:"cover",zIndex:0}} src="https://github.com/nourtrades/vanquish/releases/download/v1.0/icantchillyet_Realistic_cinematic_3840__2160_image_stock_char_f152a47b-3bf9-46a4-99a3-138049886f70_1.1.mp4" />
+        <div style={{position:"absolute",inset:0,background:"rgba(0,0,0,0.65)",zIndex:0}} />
         <div className="noise-overlay" />
 
         <div style={{...S,position:"relative",zIndex:1}}>
-          <h2 style={{...h2s,fontSize:"clamp(44px,8vw,80px)",maxWidth:800,margin:"0 auto"}}>Start trading with funded capital</h2>
+          <h2 style={{...h2s,fontSize:"clamp(32px,5vw,56px)",maxWidth:800,margin:"0 auto",whiteSpace:"nowrap"}}>Start trading with funded capital</h2>
           <p style={{...sub,margin:"24px auto 0",textAlign:"center",maxWidth:480}}>Use code NOUR for a discount on all accounts. No risk to your own money.</p>
           <div style={{marginTop:48}}>
             <a href={LINK} target="_blank" rel="noopener noreferrer" style={{...btn,fontSize:18,padding:"18px 48px",boxShadow:"0 0 40px rgba(0,200,83,0.25)"}}>Get Funded</a>
@@ -462,25 +538,24 @@ export default function LandingPage() {
             <div>
               <div style={{display:"flex",alignItems:"center",gap:10,marginBottom:16}}>
                 <img src={VQ_LOGO} alt="" style={{width:28,height:28}} />
-                <span style={{fontFamily:"'Bebas Neue',sans-serif",fontSize:15,letterSpacing:3,color:C.textMuted}}>NOUR TRADES</span>
               </div>
-              <p style={{fontSize:13,color:C.textMuted,maxWidth:300,lineHeight:1.7}}>Trading involves risk. Past results do not guarantee future performance. Vanquish Trader provides funded accounts for qualified traders.</p>
+              <p style={{fontSize:13,color:"#FFFFFF",maxWidth:300,lineHeight:1.7}}>Trading involves risk. Past results do not guarantee future performance. Vanquish Trader provides funded accounts for qualified traders.</p>
             </div>
             <div style={{display:"flex",gap:48,flexWrap:"wrap"}}>
               <div>
-                <div style={{fontSize:12,fontWeight:700,color:C.textMuted,letterSpacing:2,marginBottom:16}}>NAVIGATE</div>
-                {["How It Works","Payouts","Compare","FAQ"].map(l => (
-                  <a key={l} href={`#${l.toLowerCase().replace(/\s+/g,"-")}`} style={{display:"block",color:C.textSoft,textDecoration:"none",fontSize:14,marginBottom:10,fontWeight:500}}>{l}</a>
+                <div style={{fontSize:12,fontWeight:700,color:"#FFFFFF",letterSpacing:2,marginBottom:16}}>NAVIGATE</div>
+                {["Payouts","How It Works","Compare","FAQ"].map(l => (
+                  <a key={l} href={`#${l.toLowerCase().replace(/\s+/g,"-")}`} style={{display:"block",color:"#FFFFFF",textDecoration:"none",fontSize:14,marginBottom:10,fontWeight:500}}>{l}</a>
                 ))}
               </div>
               <div>
-                <div style={{fontSize:12,fontWeight:700,color:C.textMuted,letterSpacing:2,marginBottom:16}}>LINKS</div>
-                <a href={LINK} target="_blank" rel="noopener noreferrer" style={{display:"block",color:C.textSoft,textDecoration:"none",fontSize:14,marginBottom:10,fontWeight:500}}>Get Funded</a>
-                <a href="https://www.trustpilot.com/review/vanquishtrader.com" target="_blank" rel="noopener noreferrer" style={{display:"block",color:C.textSoft,textDecoration:"none",fontSize:14,marginBottom:10,fontWeight:500}}>Trustpilot</a>
+                <div style={{fontSize:12,fontWeight:700,color:"#FFFFFF",letterSpacing:2,marginBottom:16}}>LINKS</div>
+                <a href={LINK} target="_blank" rel="noopener noreferrer" style={{display:"block",color:"#FFFFFF",textDecoration:"none",fontSize:14,marginBottom:10,fontWeight:500}}>Get Funded</a>
+                <a href="https://www.trustpilot.com/review/vanquishtrader.com" target="_blank" rel="noopener noreferrer" style={{display:"block",color:"#FFFFFF",textDecoration:"none",fontSize:14,marginBottom:10,fontWeight:500}}>Trustpilot</a>
               </div>
             </div>
           </div>
-          <div style={{borderTop:`1px solid ${C.cardBorder}`,marginTop:40,paddingTop:24,fontSize:12,color:"rgba(255,255,255,0.15)"}}>© {new Date().getFullYear()} Nour Trades. All rights reserved.</div>
+          <div style={{borderTop:`1px solid ${C.cardBorder}`,marginTop:40,paddingTop:24,fontSize:12,color:"#FFFFFF"}}>© {new Date().getFullYear()} StockHours LLC. All rights reserved.</div>
         </div>
       </footer>
     </div>
