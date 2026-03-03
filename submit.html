@@ -44,8 +44,8 @@
       <label>PAYOUT AMOUNT ($)</label>
       <input type="number" id="payout" placeholder="e.g. 5000" min="1" step="0.01" required />
 
-      <label>PROOF LINK (OPTIONAL)</label>
-      <input type="url" id="proofUrl" placeholder="e.g. screenshot URL or link" />
+      <label>PAYOUT SCREENSHOT (OPTIONAL)</label>
+      <input type="file" id="screenshot" accept="image/png,image/jpeg,image/gif,image/webp" />
 
       <button type="submit" class="btn" id="submitBtn">Submit Payout</button>
     </form>
@@ -66,16 +66,15 @@
       submitBtn.textContent = "Submitting...";
 
       try {
-        const body = {
-          name: document.getElementById("name").value.trim(),
-          payout: Number(document.getElementById("payout").value),
-          proofUrl: document.getElementById("proofUrl").value.trim(),
-        };
+        const fd = new FormData();
+        fd.append("name", document.getElementById("name").value.trim());
+        fd.append("payout", document.getElementById("payout").value);
+        const file = document.getElementById("screenshot").files[0];
+        if (file) fd.append("screenshot", file);
 
         const res = await fetch("/api/submissions", {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(body),
+          body: fd,
         });
         const data = await res.json();
 

@@ -6,6 +6,7 @@ export default defineConfig({
   server: {
     proxy: {
       "/api": "http://localhost:3001",
+      "/uploads": "http://localhost:3001",
       "/submit": "http://localhost:3001",
       "/admin": "http://localhost:3001",
     },

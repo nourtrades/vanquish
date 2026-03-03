@@ -165,7 +165,7 @@ export default function LandingPage() {
   const [leaderboard, setLeaderboard] = useState(null);
   const [showBoard, setShowBoard] = useState(false);
   const [showSubmit, setShowSubmit] = useState(false);
-  const [submitForm, setSubmitForm] = useState({ name: "", payout: "", proofUrl: "" });
+  const [submitForm, setSubmitForm] = useState({ name: "", payout: "", screenshot: null });
   const [submitStatus, setSubmitStatus] = useState(null); // { type: "success"|"error", message }
   const [submitting, setSubmitting] = useState(false);
 
@@ -438,15 +438,16 @@ export default function LandingPage() {
                 setSubmitStatus(null);
                 setSubmitting(true);
                 try {
-                  const res = await fetch("/api/submissions", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ name: submitForm.name.trim(), payout: Number(submitForm.payout), proofUrl: submitForm.proofUrl.trim() }),
-                  });
+                  const fd = new FormData();
+                  fd.append("name", submitForm.name.trim());
+                  fd.append("payout", submitForm.payout);
+                  if (submitForm.screenshot) fd.append("screenshot", submitForm.screenshot);
+                  const res = await fetch("/api/submissions", { method: "POST", body: fd });
                   const data = await res.json();
                   if (data.success) {
                     setSubmitStatus({ type: "success", message: "Payout submitted! It will appear on the leaderboard once approved." });
-                    setSubmitForm({ name: "", payout: "", proofUrl: "" });
+                    setSubmitForm({ name: "", payout: "", screenshot: null });
+                    e.target.reset();
                   } else {
                     throw new Error(data.error || "Submission failed");
                   }
@@ -462,8 +463,8 @@ export default function LandingPage() {
                 <label style={{display:"block",fontSize:11,fontWeight:700,letterSpacing:2,color:C.green,marginBottom:8}}>PAYOUT AMOUNT ($)</label>
                 <input type="number" value={submitForm.payout} onChange={e => setSubmitForm({...submitForm, payout: e.target.value})} placeholder="e.g. 5000" min="1" step="0.01" required style={{width:"100%",padding:"14px 18px",background:"rgba(255,255,255,0.04)",border:"1px solid rgba(255,255,255,0.1)",borderRadius:10,color:"#fff",fontSize:15,fontFamily:"Inter,sans-serif",outline:"none",marginBottom:20}} />
 
-                <label style={{display:"block",fontSize:11,fontWeight:700,letterSpacing:2,color:C.green,marginBottom:8}}>PROOF LINK (OPTIONAL)</label>
-                <input type="url" value={submitForm.proofUrl} onChange={e => setSubmitForm({...submitForm, proofUrl: e.target.value})} placeholder="e.g. screenshot URL or link" style={{width:"100%",padding:"14px 18px",background:"rgba(255,255,255,0.04)",border:"1px solid rgba(255,255,255,0.1)",borderRadius:10,color:"#fff",fontSize:15,fontFamily:"Inter,sans-serif",outline:"none",marginBottom:24}} />
+                <label style={{display:"block",fontSize:11,fontWeight:700,letterSpacing:2,color:C.green,marginBottom:8}}>PAYOUT SCREENSHOT (OPTIONAL)</label>
+                <input type="file" accept="image/png,image/jpeg,image/gif,image/webp" onChange={e => setSubmitForm({...submitForm, screenshot: e.target.files[0] || null})} style={{width:"100%",padding:"14px 18px",background:"rgba(255,255,255,0.04)",border:"1px solid rgba(255,255,255,0.1)",borderRadius:10,color:"#fff",fontSize:14,fontFamily:"Inter,sans-serif",outline:"none",marginBottom:24}} />
 
                 <button type="submit" disabled={submitting} style={{width:"100%",padding:16,background:C.green,border:"none",borderRadius:100,color:"#000",fontSize:16,fontWeight:700,cursor:submitting?"not-allowed":"pointer",fontFamily:"Inter,sans-serif",opacity:submitting?0.5:1,transition:"opacity .2s"}}>{submitting ? "Submitting..." : "Submit Payout"}</button>
               </form>

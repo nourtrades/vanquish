@@ -2,13 +2,34 @@ const express = require("express");
 const fs = require("fs");
 const path = require("path");
 const crypto = require("crypto");
+const multer = require("multer");
 
 const app = express();
 const PORT = process.env.PORT || 3001;
 const DATA_FILE = path.join(__dirname, "leaderboard.json");
 const SUBS_FILE = path.join(__dirname, "submissions.json");
+const UPLOADS_DIR = path.join(__dirname, "uploads");
+
+if (!fs.existsSync(UPLOADS_DIR)) fs.mkdirSync(UPLOADS_DIR);
+
+const upload = multer({
+  storage: multer.diskStorage({
+    destination: (_req, _file, cb) => cb(null, UPLOADS_DIR),
+    filename: (_req, file, cb) => {
+      const ext = path.extname(file.originalname).toLowerCase();
+      cb(null, crypto.randomUUID() + ext);
+    },
+  }),
+  limits: { fileSize: 10 * 1024 * 1024 }, // 10 MB
+  fileFilter: (_req, file, cb) => {
+    const allowed = [".png", ".jpg", ".jpeg", ".gif", ".webp"];
+    const ext = path.extname(file.originalname).toLowerCase();
+    cb(null, allowed.includes(ext));
+  },
+});
 
 app.use(express.json());
+app.use("/uploads", express.static(UPLOADS_DIR));
 
 // ── Serve standalone pages ──
 app.get("/submit", (_req, res) => res.sendFile(path.join(__dirname, "submit.html")));
@@ -91,10 +112,10 @@ function writeSubs(data) {
   fs.writeFileSync(SUBS_FILE, JSON.stringify(data, null, 2) + "\n");
 }
 
-// ── POST /api/submissions ── trader submits a payout
-app.post("/api/submissions", (req, res) => {
+// ── POST /api/submissions ── trader submits a payout (with optional screenshot)
+app.post("/api/submissions", upload.single("screenshot"), (req, res) => {
   try {
-    const { name, payout, proofUrl } = req.body;
+    const { name, payout } = req.body;
     if (!name || payout == null) {
       return res.status(400).json({ error: "'name' and 'payout' are required" });
     }
@@ -103,7 +124,7 @@ app.post("/api/submissions", (req, res) => {
       id: crypto.randomUUID(),
       name: String(name).trim(),
       payout: Number(payout),
-      proofUrl: proofUrl ? String(proofUrl).trim() : "",
+      proofUrl: req.file ? `/uploads/${req.file.filename}` : "",
       status: "pending",
       submittedAt: new Date().toISOString(),
     };
