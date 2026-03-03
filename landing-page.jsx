@@ -290,7 +290,7 @@ export default function LandingPage() {
             ].map((s,i) => (
               <div key={i} style={{background:"rgba(10,10,10,0.9)",padding:"48px 40px",position:"relative",overflow:"hidden"}}>
                 <div style={{position:"absolute",top:-30,right:-30,width:120,height:120,borderRadius:"50%",background:"radial-gradient(circle,rgba(0,200,83,0.06) 0%,transparent 70%)",pointerEvents:"none"}} />
-                <span style={{fontFamily:"'Bebas Neue',sans-serif",fontSize:48,color:"rgba(0,200,83,0.08)",lineHeight:1}}>{s.n}</span>
+                <span style={{fontFamily:"'Bebas Neue',sans-serif",fontSize:48,color:"#00C853",lineHeight:1}}>{s.n}</span>
                 <h3 style={{fontSize:22,fontWeight:700,color:"#fff",margin:"20px 0 12px"}}>{s.t}</h3>
                 <p style={{fontSize:15,color:C.textSoft,lineHeight:1.7}}>{s.d}</p>
               </div>
