@@ -31,8 +31,11 @@ const upload = multer({
 app.use(express.json());
 app.use("/uploads", express.static(UPLOADS_DIR));
 
+// ── Serve Vite-built frontend ──
+const DIST_DIR = path.join(__dirname, "dist");
+app.use(express.static(DIST_DIR));
+
 // ── Serve standalone pages ──
-app.get("/", (_req, res) => res.sendFile(path.join(__dirname, "index.html")));
 app.get("/submit", (_req, res) => res.sendFile(path.join(__dirname, "submit.html")));
 app.get("/admin", (_req, res) => res.sendFile(path.join(__dirname, "admin.html")));
 
