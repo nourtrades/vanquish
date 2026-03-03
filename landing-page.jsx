@@ -451,23 +451,23 @@ export default function LandingPage() {
               <div style={{display:"flex",alignItems:"center",gap:10,marginBottom:16}}>
                 <img src={VQ_LOGO} alt="" style={{width:28,height:28}} />
               </div>
-              <p style={{fontSize:13,color:C.textMuted,maxWidth:300,lineHeight:1.7}}>Trading involves risk. Past results do not guarantee future performance. Vanquish Trader provides funded accounts for qualified traders.</p>
+              <p style={{fontSize:13,color:"#FFFFFF",maxWidth:300,lineHeight:1.7}}>Trading involves risk. Past results do not guarantee future performance. Vanquish Trader provides funded accounts for qualified traders.</p>
             </div>
             <div style={{display:"flex",gap:48,flexWrap:"wrap"}}>
               <div>
-                <div style={{fontSize:12,fontWeight:700,color:C.textMuted,letterSpacing:2,marginBottom:16}}>NAVIGATE</div>
+                <div style={{fontSize:12,fontWeight:700,color:"#FFFFFF",letterSpacing:2,marginBottom:16}}>NAVIGATE</div>
                 {["Payouts","How It Works","Compare","FAQ"].map(l => (
-                  <a key={l} href={`#${l.toLowerCase().replace(/\s+/g,"-")}`} style={{display:"block",color:C.textSoft,textDecoration:"none",fontSize:14,marginBottom:10,fontWeight:500}}>{l}</a>
+                  <a key={l} href={`#${l.toLowerCase().replace(/\s+/g,"-")}`} style={{display:"block",color:"#FFFFFF",textDecoration:"none",fontSize:14,marginBottom:10,fontWeight:500}}>{l}</a>
                 ))}
               </div>
               <div>
-                <div style={{fontSize:12,fontWeight:700,color:C.textMuted,letterSpacing:2,marginBottom:16}}>LINKS</div>
-                <a href={LINK} target="_blank" rel="noopener noreferrer" style={{display:"block",color:C.textSoft,textDecoration:"none",fontSize:14,marginBottom:10,fontWeight:500}}>Get Funded</a>
-                <a href="https://www.trustpilot.com/review/vanquishtrader.com" target="_blank" rel="noopener noreferrer" style={{display:"block",color:C.textSoft,textDecoration:"none",fontSize:14,marginBottom:10,fontWeight:500}}>Trustpilot</a>
+                <div style={{fontSize:12,fontWeight:700,color:"#FFFFFF",letterSpacing:2,marginBottom:16}}>LINKS</div>
+                <a href={LINK} target="_blank" rel="noopener noreferrer" style={{display:"block",color:"#FFFFFF",textDecoration:"none",fontSize:14,marginBottom:10,fontWeight:500}}>Get Funded</a>
+                <a href="https://www.trustpilot.com/review/vanquishtrader.com" target="_blank" rel="noopener noreferrer" style={{display:"block",color:"#FFFFFF",textDecoration:"none",fontSize:14,marginBottom:10,fontWeight:500}}>Trustpilot</a>
               </div>
             </div>
           </div>
-          <div style={{borderTop:`1px solid ${C.cardBorder}`,marginTop:40,paddingTop:24,fontSize:12,color:"rgba(255,255,255,0.15)"}}>© {new Date().getFullYear()} StockHours LLC. All rights reserved.</div>
+          <div style={{borderTop:`1px solid ${C.cardBorder}`,marginTop:40,paddingTop:24,fontSize:12,color:"#FFFFFF"}}>© {new Date().getFullYear()} StockHours LLC. All rights reserved.</div>
         </div>
       </footer>
     </div>
