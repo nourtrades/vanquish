@@ -148,14 +148,20 @@ const BgVideo = ({src}) => {
     const el = ref.current;
     if (!el) return;
     const tryPlay = () => { el.play().catch(() => {}); };
-    tryPlay();
+    // Fetch as blob to get proper video/mp4 MIME type (GitHub serves octet-stream with redirects)
+    fetch(src).then(r => r.blob()).then(b => {
+      const url = URL.createObjectURL(new Blob([b], {type:"video/mp4"}));
+      el.src = url;
+      el.load();
+      tryPlay();
+    }).catch(() => { el.src = src; el.load(); tryPlay(); });
     const io = new IntersectionObserver(([e]) => { if (e.isIntersecting) tryPlay(); }, {threshold:0.1});
     io.observe(el);
-    const onTouch = () => { tryPlay(); document.removeEventListener("touchstart", onTouch); };
+    const onTouch = () => { tryPlay(); };
     document.addEventListener("touchstart", onTouch, {once:true});
     return () => { io.disconnect(); document.removeEventListener("touchstart", onTouch); };
-  }, []);
-  return <video ref={ref} className="vq-bg-video" autoPlay muted loop playsInline webkit-playsinline="" style={{position:"absolute",inset:0,width:"100%",height:"100%",objectFit:"cover",zIndex:0}} src={src} />;
+  }, [src]);
+  return <video ref={ref} autoPlay muted loop playsInline style={{position:"absolute",inset:0,width:"100%",height:"100%",objectFit:"cover",zIndex:0}} />;
 };
 
 
@@ -253,7 +259,7 @@ export default function LandingPage() {
       {/* ═══════════ HERO — Globe peeks from bottom ═══════════ */}
       <section style={{padding:"80px 32px 64px",position:"relative",overflow:"hidden"}} className="vq-hero">
         {/* Globe — positioned at bottom center, peeking up */}
-        <div style={{position:"absolute",bottom:"-35%",left:"50%",transform:"translateX(-50%) scale(1.5)",width:1000,height:1000,pointerEvents:"none",zIndex:0}}>
+        <div style={{position:"absolute",bottom:"-25%",left:"50%",transform:"translateX(-50%)",width:800,height:800,pointerEvents:"none",zIndex:0}}>
           <div className="rotate-bg-spin" style={{backgroundImage:`url(${ROTATE_BG})`,borderRadius:"50%"}} />
         </div>
         {/* Dark gradient overlay — keeps text readable */}
