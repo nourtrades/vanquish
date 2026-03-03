@@ -191,7 +191,7 @@ export default function LandingPage() {
           </div>
           <div style={{display:"flex",alignItems:"center",gap:28}}>
             {["Payouts","How It Works","Compare","FAQ"].map(t => (
-              <a key={t} href={`#${t.toLowerCase().replace(/\s+/g,"-")}`} style={{color:C.textSoft,textDecoration:"none",fontSize:14,fontWeight:500}}>{t}</a>
+              <a key={t} href={`#${t.toLowerCase().replace(/\s+/g,"-")}`} style={{color:"#FFFFFF",textDecoration:"none",fontSize:14,fontWeight:500}}>{t}</a>
             ))}
             <a href={LINK} target="_blank" rel="noopener noreferrer" style={{...btn,padding:"10px 24px",fontSize:14}}>Get Funded</a>
           </div>
