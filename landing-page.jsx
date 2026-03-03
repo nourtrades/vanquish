@@ -272,33 +272,6 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* ═══════════ HOW IT WORKS — Animated Grid + Hex Pattern ═══════════ */}
-      <section id="how-it-works" style={{padding:"120px 32px",position:"relative",overflow:"hidden",borderTop:`1px solid ${C.cardBorder}`}}>
-        <div className="futuristic-grid" />
-        <div className="glow-orb" style={{width:400,height:400,background:"radial-gradient(circle,rgba(0,200,83,0.08) 0%,transparent 60%)",top:"30%",right:"-5%",animationDelay:"2s"}} />
-
-        <div style={{...S,position:"relative",zIndex:1}}>
-          <p style={label}>How It Works</p>
-          <h2 style={h2s}>Our traders are<br/>getting paid</h2>
-          <p style={sub}>No complicated rules. No hidden requirements. Just trade.</p>
-
-          <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(300px,1fr))",gap:1,marginTop:72,background:C.cardBorder,borderRadius:20,overflow:"hidden"}}>
-            {[
-              {n:"01",t:"Choose your account",d:"Pick your funded account size — up to $150K. Use code NOUR for a special discount."},
-              {n:"02",t:"Complete 10 trades",d:"Pass a simple evaluation with just 10 trades. No time limit. Trade stocks or options."},
-              {n:"03",t:"Keep your profits",d:"Once funded, you keep 100% of your profits. Request instant payouts anytime."},
-            ].map((s,i) => (
-              <div key={i} style={{background:"rgba(10,10,10,0.9)",padding:"48px 40px",position:"relative",overflow:"hidden"}}>
-                <div style={{position:"absolute",top:-30,right:-30,width:120,height:120,borderRadius:"50%",background:"radial-gradient(circle,rgba(0,200,83,0.06) 0%,transparent 70%)",pointerEvents:"none"}} />
-                <span style={{fontFamily:"'Bebas Neue',sans-serif",fontSize:48,color:"#00C853",lineHeight:1}}>{s.n}</span>
-                <h3 style={{fontSize:22,fontWeight:700,color:"#fff",margin:"20px 0 12px"}}>{s.t}</h3>
-                <p style={{fontSize:15,color:C.textSoft,lineHeight:1.7}}>{s.d}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* ═══════════ PAYOUTS — Hex Pattern + Scanlines ═══════════ */}
       <section id="payouts" style={{padding:"120px 0",position:"relative",overflow:"hidden",borderTop:`1px solid ${C.cardBorder}`}}>
         <div className="hex-pattern" />
@@ -314,6 +287,33 @@ export default function LandingPage() {
           <div className="marquee-track">
             {[...PAYOUT_IMAGES,...PAYOUT_IMAGES,...PAYOUT_IMAGES].map((src,i) => (
               <img key={i} src={src} alt="Payout" draggable={false} style={{height:220,width:"auto",minWidth:264,objectFit:"cover",objectPosition:"top",borderRadius:12,border:"1px solid rgba(0,200,83,0.12)",userSelect:"none",pointerEvents:"none",boxShadow:"0 0 20px rgba(0,200,83,0.05)"}} />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ═══════════ HOW IT WORKS — Animated Grid + Hex Pattern ═══════════ */}
+      <section id="how-it-works" style={{padding:"120px 32px",position:"relative",overflow:"hidden",borderTop:`1px solid ${C.cardBorder}`}}>
+        <div className="futuristic-grid" />
+        <div className="glow-orb" style={{width:400,height:400,background:"radial-gradient(circle,rgba(0,200,83,0.08) 0%,transparent 60%)",top:"30%",right:"-5%",animationDelay:"2s"}} />
+
+        <div style={{...S,position:"relative",zIndex:1}}>
+          <p style={label}>How It Works</p>
+          <h2 style={h2s}>Get funded in<br/>3 simple steps</h2>
+          <p style={sub}>No complicated rules. No hidden requirements. Just trade.</p>
+
+          <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(300px,1fr))",gap:1,marginTop:72,background:C.cardBorder,borderRadius:20,overflow:"hidden"}}>
+            {[
+              {n:"01",t:"Choose your account",d:"Pick your funded account size — up to $150K. Use code NOUR for a special discount."},
+              {n:"02",t:"Complete 10 trades",d:"Pass a simple evaluation with just 10 trades. No time limit. Trade stocks or options."},
+              {n:"03",t:"Keep your profits",d:"Once funded, you keep 100% of your profits. Request instant payouts anytime."},
+            ].map((s,i) => (
+              <div key={i} style={{background:"rgba(10,10,10,0.9)",padding:"48px 40px",position:"relative",overflow:"hidden"}}>
+                <div style={{position:"absolute",top:-30,right:-30,width:120,height:120,borderRadius:"50%",background:"radial-gradient(circle,rgba(0,200,83,0.06) 0%,transparent 70%)",pointerEvents:"none"}} />
+                <span style={{fontFamily:"'Bebas Neue',sans-serif",fontSize:48,color:"#00C853",lineHeight:1}}>{s.n}</span>
+                <h3 style={{fontSize:22,fontWeight:700,color:"#fff",margin:"20px 0 12px"}}>{s.t}</h3>
+                <p style={{fontSize:15,color:C.textSoft,lineHeight:1.7}}>{s.d}</p>
+              </div>
             ))}
           </div>
         </div>
