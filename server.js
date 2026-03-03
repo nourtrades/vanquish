@@ -32,6 +32,7 @@ app.use(express.json());
 app.use("/uploads", express.static(UPLOADS_DIR));
 
 // ── Serve standalone pages ──
+app.get("/", (_req, res) => res.sendFile(path.join(__dirname, "index.html")));
 app.get("/submit", (_req, res) => res.sendFile(path.join(__dirname, "submit.html")));
 app.get("/admin", (_req, res) => res.sendFile(path.join(__dirname, "admin.html")));
 
