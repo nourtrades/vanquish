@@ -436,7 +436,7 @@ export default function LandingPage() {
 
       {/* ═══════════ FINAL CTA — Video backdrop ═══════════ */}
       <section style={{padding:"140px 32px",textAlign:"center",position:"relative",overflow:"hidden",borderTop:`1px solid ${C.cardBorder}`}}>
-        <video autoPlay muted loop playsInline style={{position:"absolute",inset:0,width:"100%",height:"100%",objectFit:"cover",zIndex:0}} src="https://github.com/nourtrades/vanquish/releases/download/v1.0/icantchillyet_Realistic_cinematic_3840__2160_image_stock_char_f152a47b-3bf9-46a4-99a3-138049886f70_1.mp4" />
+        <video autoPlay muted loop playsInline style={{position:"absolute",inset:0,width:"100%",height:"100%",objectFit:"cover",zIndex:0}} src="https://github.com/nourtrades/vanquish/releases/download/v1.0/icantchillyet_Realistic_cinematic_3840__2160_image_stock_char_f152a47b-3bf9-46a4-99a3-138049886f70_1.1.mp4" />
         <div style={{position:"absolute",inset:0,background:"rgba(0,0,0,0.65)",zIndex:0}} />
         <div className="noise-overlay" />
 
