@@ -265,7 +265,7 @@ export default function LandingPage() {
       {/* ═══════════ VIDEO ═══════════ */}
       <section id="video" style={{padding:"80px 32px 120px",position:"relative"}}>
         <div style={{...S,maxWidth:880}}>
-          <h2 style={{fontFamily:"'Bebas Neue',sans-serif",fontSize:36,letterSpacing:1,lineHeight:1,color:C.green,textAlign:"center",marginBottom:48}}>Trade stocks & options with funded capital</h2>
+          <h2 style={{fontFamily:"'Bebas Neue',sans-serif",fontSize:36,letterSpacing:1,lineHeight:1,color:"#fff",textAlign:"center",marginBottom:48}}>WHY YOU NEED TO CHOOSE VANQUISH</h2>
           <div style={{position:"relative",paddingBottom:"56.25%",borderRadius:16,overflow:"hidden",border:"1px solid rgba(0,200,83,0.15)",boxShadow:"0 0 60px rgba(0,200,83,0.08), 0 40px 80px rgba(0,0,0,0.5)"}}>
             <iframe src="https://www.youtube.com/embed/jgsFStjJOS4" title="Vanquish Trader" style={{position:"absolute",inset:0,width:"100%",height:"100%",border:"none"}} allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen />
           </div>
