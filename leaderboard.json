@@ -1,15 +1,4 @@
 {
   "month": "March 2026",
-  "traders": [
-    { "rank": 1, "name": "TraderX", "payout": 12450, "trades": 87, "winRate": 74 },
-    { "rank": 2, "name": "AlphaFX", "payout": 9800, "trades": 63, "winRate": 71 },
-    { "rank": 3, "name": "NightOwl", "payout": 7320, "trades": 55, "winRate": 68 },
-    { "rank": 4, "name": "SwingKing", "payout": 5100, "trades": 42, "winRate": 65 },
-    { "rank": 5, "name": "Momentum", "payout": 3750, "trades": 38, "winRate": 62 },
-    { "rank": 6, "name": "ScalpPro", "payout": 2900, "trades": 91, "winRate": 58 },
-    { "rank": 7, "name": "BullishAce", "payout": 2100, "trades": 34, "winRate": 60 },
-    { "rank": 8, "name": "VortexFX", "payout": 1850, "trades": 29, "winRate": 57 },
-    { "rank": 9, "name": "GoldRush", "payout": 1400, "trades": 25, "winRate": 55 },
-    { "rank": 10, "name": "SteadyEdge", "payout": 1050, "trades": 22, "winRate": 53 }
-  ]
+  "traders": []
 }
