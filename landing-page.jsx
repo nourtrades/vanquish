@@ -239,7 +239,7 @@ export default function LandingPage() {
 
       {/* ═══ PROMO BANNER ═══ */}
       <div style={{background:C.green,padding:"10px 24px",textAlign:"center",fontSize:14,fontWeight:700,color:"#000",letterSpacing:0.5}}>
-        Use code <span style={{background:"#000",color:C.green,padding:"2px 10px",borderRadius:4,margin:"0 6px",letterSpacing:2}}>NOUR</span> for a discount on all Vanquish accounts
+        Use code <span style={{background:"#000",color:C.green,padding:"2px 10px",borderRadius:4,margin:"0 6px",letterSpacing:2}}>NOUR</span> to get 20% OFF & 1 FREE Reset Credit
       </div>
 
       {/* ═══ NAV ═══ */}
