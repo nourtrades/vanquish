@@ -363,7 +363,7 @@ export default function LandingPage() {
 
           <div className="step-grid" style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(300px,1fr))",gap:1,marginTop:40,background:C.cardBorder,borderRadius:20,overflow:"hidden"}}>
             {[
-              {n:"01",t:"Choose your account",d:"Pick your funded account size — up to $150K. Use code NOUR for a special discount."},
+              {n:"01",t:"Choose your account",d:"Pick your funded account size — up to $150K. Use code NOUR to get 20% OFF & 1 FREE Reset Credit."},
               {n:"02",t:"Complete 10 trades",d:"Pass a simple evaluation with just 10 trades. No time limit. Trade stocks or options."},
               {n:"03",t:"Keep your profits",d:"Once funded, you keep 100% of your profits. Request instant payouts anytime."},
             ].map((s,i) => (
@@ -574,7 +574,7 @@ export default function LandingPage() {
 
         <div style={{...S,position:"relative",zIndex:1}}>
           <h2 style={{...h2s,fontSize:"clamp(32px,5vw,56px)",maxWidth:800,margin:"0 auto"}}>Start trading with funded capital</h2>
-          <p style={{...sub,margin:"24px auto 0",textAlign:"center",maxWidth:480}}>Use code NOUR for a discount on all accounts. No risk to your own money.</p>
+          <p style={{...sub,margin:"24px auto 0",textAlign:"center",maxWidth:480}}>Use code NOUR to get 20% OFF & 1 FREE Reset Credit. No risk to your own money.</p>
           <div style={{marginTop:28}}>
             <a href={LINK} target="_blank" rel="noopener noreferrer" style={{...btn,fontSize:18,padding:"18px 48px",boxShadow:"0 0 40px rgba(0,200,83,0.25)"}}>Get Funded</a>
           </div>
